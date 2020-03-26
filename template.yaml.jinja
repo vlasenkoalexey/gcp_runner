@@ -1,0 +1,162 @@
+{%- set has_eval = False -%}
+{%- set has_tensorboard = False -%}
+
+{%- set replicas = {"worker": worker_machine_count,
+                    "chief": master_machine_count,
+                    "ps": parameter_machine_count,
+                    "evaluator": has_eval|int,
+                    "tensorboard": has_tensorboard|int} -%}
+
+{%- macro chief_host() -%}
+    \"{{ name }}-chief-0:{{ port }}\"
+{%- endmacro -%}
+
+{%- macro worker_hosts() -%}
+  {%- for i in range(worker_machine_count) -%}
+    {%- if not loop.first -%},{%- endif -%}
+    \"{{ name }}-worker-{{ i }}:{{ port }}\"
+  {%- endfor -%}
+{%- endmacro -%}
+
+{%- macro ps_hosts() -%}
+  {%- for i in range(parameter_machine_count) -%}
+    {%- if not loop.first -%},{%- endif -%}
+    \"{{ name }}-ps-{{ i }}:{{ port }}\"
+  {%- endfor -%}
+{%- endmacro -%}
+
+{%- macro tf_config(task_type, task_id) -%}
+{
+  \"cluster\": {
+    {%- if master_machine_count > 0 -%}
+    \"chief\": [{{ chief_host() }}]
+    {%- endif -%}
+    {%- if worker_machine_count > 0 -%},
+    \"worker\": [{{ worker_hosts() }}]
+    {%- endif -%}
+    {%- if parameter_machine_count > 0 -%}, \"ps\": [{{ ps_hosts() }}]{%- endif -%}
+    {%- if has_eval -%},
+    \"evaluator\": [\"{{ name }}-evaluator-0:{{ port }}\"]{%- endif -%}
+  },
+  \"task\": {
+    \"type\":  \"{{ task_type }}\",
+    \"index\": {{ task_id }}
+  },
+  \"environment\": \"cloud\"
+}
+{%- endmacro -%}
+
+{% for job in ["worker", "ps", "evaluator", "tensorboard", "chief"] -%}
+{%- for i in range(replicas[job]) -%}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ name }}-{{ job }}-{{ i }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    job: {{ name }}-{{ job }}-{{ i }}
+  ports:
+  - port: {{ port }}
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: {{ name }}-{{ job }}-{{ i }}
+  labels:
+    job: {{ name }}-{{ job }}-{{ i }}
+  annotations:
+    tf-version.cloud-tpus.google.com: "2.1"
+spec:
+  hostNetwork: true
+  dnsPolicy: ClusterFirstWithHostNet
+  restartPolicy: Never
+{% if job == "tensorboard" %}
+  containers:
+  - name: tensorflow
+    image: tensorflow/tensorflow
+{% else %}
+  containers:
+  - name: gcp-runner-image
+    image: {{ image_uri }}
+    imagePullPolicy: Always
+{% if privileged %}
+    securityContext:
+      privileged: true
+{% endif %}
+    resources:
+      limits:
+{% if tpu_count > 0 %}
+        cloud-tpus.google.com/v2: {{ tpu_count }}
+{% endif %}
+        cpu: 3
+{% if job == "ps" %}
+        memory: 12G
+{% if parameter_accelerator_count > 0 %}
+        nvidia.com/gpu: {{ parameter_accelerator_count }}
+{% endif %}
+{% elif job == "chief" %}
+        memory: 12G
+{% if master_accelerator_count > 0 %}
+        nvidia.com/gpu: {{ master_accelerator_count }}
+{% endif %}
+{% else %}
+        memory: 12G
+{% if master_accelerator_count > 0 %}
+        nvidia.com/gpu: {{ master_accelerator_count }}
+{% endif %}        
+{% endif %}
+{% endif %}
+    env:
+{% if job != "tensorboard" %}
+    - name: TF_CONFIG
+      value: "{{ tf_config(job, i) }}"
+{% endif %}
+    ports:
+    - containerPort: {{ port }}
+{% if job == "tensorboard" %}
+    command:
+    - "tensorboard"
+    args:
+    - "--logdir={{ train_dir }}"
+    - "--port={{ port }}"
+{% else %}
+    command:
+    {%- for cmdline_arg in cmdline_args %}
+    - "{{ cmdline_arg }}"
+    {%- endfor -%}
+
+{% endif %}
+---
+{% endfor %}
+{%- endfor -%}
+{% if privileged %}
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: privileged
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+spec:
+  privileged: true
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+  - '*'
+  volumes:
+  - '*'
+  hostNetwork: true
+  hostPorts:
+  - min: 0
+    max: 65535
+  hostIPC: true
+  hostPID: true
+  runAsUser:
+    rule: 'RunAsAny'
+  seLinux:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+{% endif %}
