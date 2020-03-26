@@ -30,12 +30,13 @@ ENV GOOGLE_APPLICATION_CREDENTIALS=/root/alekseyv-scalableai-dev-077efe757ef6.js
 #COPY dependencies/tensorflow-2.1.0-cp37-cp37m-linux_x86_64.whl /root/
 #RUN pip install --upgrade /root/tensorflow-2.1.0-cp37-cp37m-linux_x86_64.whl
 RUN pip install tensorboardX
-RUN pip install --no-deps tensorflow-io==0.7.2
+RUN pip install --no-deps tensorflow-io
 RUN pip install pandas
 
 RUN mkdir /root/model
-COPY alekseyv-scalableai-dev-077efe757ef6.json /root/
-COPY gcp_runner/* /root/
+RUN mkdir /root/gcp_runner
+#COPY alekseyv-scalableai-dev-077efe757ef6.json /root/
+COPY gcp_runner/* /root/gcp_runner/
 
 # Sets up the entry point to invoke the trainer.
 # ENTRYPOINT ["python", "trainer/trainer.py", "/root/model"]
