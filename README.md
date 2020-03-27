@@ -2,10 +2,9 @@
 > Allows running any Jupyter notebook function on Google Cloud Platform.
 
 
-This file will become your README and also the index of your documentation.
-
 ## Install
 
+TODO: upload to pypi
 `pip install gcp_runner`
 
 ## How to use
@@ -77,6 +76,7 @@ gcp_runner.local_runner.run_docker(
     build_docker_file=None)
 ```
 
+<pre>
 Running in Docker container:  
 docker run -v /usr/local/google/home/alekseyv/vlasenkoalexey/gcp_runner/gcp_runner:/gcp_runner gcr.io/deeplearning-platform-release/tf2-cpu.2-1 python -u -m gcp_runner.entry_point --module-name=gcp_runner.index --function-name=some_function_to_run_on_cloud
 in gcp_runner entry point  
@@ -85,7 +85,8 @@ running some_function_to_run_on_cloud
 in main before sleep 1  
 in main after sleep 2  
 in main after sleep 3  
-in main after sleep 4  
+in main after sleep 4 
+</pre>
 
 ### Running on Google Cloud AI Platform
 
@@ -101,6 +102,7 @@ gcp_runner.ai_platform_runner.run_package(
      'gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir')
 ```
 
+<pre>
 Trimmed output:  
 Running training job using package on Google Cloud Platform AI:  
 gcloud ai-platform jobs submit training ai_platform_runner_train_package_20200327_131147 \\  
@@ -136,7 +138,8 @@ INFO	2020-03-27 13:13:35 -0700	master-replica-0		in main after sleep 4
 INFO	2020-03-27 13:13:35 -0700	master-replica-0		Module completed; cleaning up.  
 INFO	2020-03-27 13:13:35 -0700	master-replica-0		Clean up finished.  
 INFO	2020-03-27 13:13:35 -0700	master-replica-0		Task completed successfully.  
-state: SUCCEEDED  
+state: SUCCEEDED 
+</pre>
 
 Running as a custom Docker container on Google Cloud AI Platform:
 
@@ -150,12 +153,14 @@ gcp_runner.ai_platform_runner.run_docker_image(
     master_image_uri='gcr.io/alekseyv-scalableai-dev/tf2-cpu.2-1')
 ```
 
+<pre>
 Trimmed output:  
 INFO	2020-03-27 13:01:57 -0700	master-replica-0		running some_function_to_run_on_cloud  
 INFO	2020-03-27 13:01:57 -0700	master-replica-0		in main before sleep 1  
 INFO	2020-03-27 13:01:59 -0700	master-replica-0		in main after sleep 2  
 INFO	2020-03-27 13:02:04 -0700	master-replica-0		in main after sleep 3  
 INFO	2020-03-27 13:02:09 -0700	master-replica-0		in main after sleep 4  
+</pre>
 
 TODO: example how to run distributed training
 TODO: example how to run distributed hyper parameter tuner
@@ -178,9 +183,12 @@ gcp_runner.kubernetes_runner.run_docker_image(
     build_docker_file='Dockerfile',
     image_uri='gcr.io/alekseyv-scalableai-dev/tf2-cpu.2-1')
 ```
-Trimmed output:
-kubernetes-runner-train-docker-chief-0		running some_function_to_run_on_cloud
-kubernetes-runner-train-docker-chief-0		in main before sleep 1
-kubernetes-runner-train-docker-chief-0		in main after sleep 2
-kubernetes-runner-train-docker-chief-0		in main after sleep 3
-kubernetes-runner-train-docker-chief-0		in main after sleep 4
+
+<pre>
+Trimmed output:  
+kubernetes-runner-train-docker-chief-0		running some_function_to_run_on_cloud  
+kubernetes-runner-train-docker-chief-0		in main before sleep 1  
+kubernetes-runner-train-docker-chief-0		in main after sleep 2  
+kubernetes-runner-train-docker-chief-0		in main after sleep 3  
+kubernetes-runner-train-docker-chief-0		in main after sleep 4  
+</pre>

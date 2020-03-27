@@ -26,20 +26,14 @@ description: "Allows running any Jupyter notebook function on Google Cloud Platf
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This file will become your README and also the index of your documentation.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Install">Install<a class="anchor-link" href="#Install"> </a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>pip install gcp_runner</code></p>
+<p>TODO: upload to pypi
+<code>pip install gcp_runner</code></p>
 
 </div>
 </div>
@@ -208,16 +202,17 @@ In order to build your own Docker file, set <code>build_docker_file</code> argum
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Running in Docker container:<br>
+<pre>
+Running in Docker container:  
 docker run -v /usr/local/google/home/alekseyv/vlasenkoalexey/gcp_runner/gcp_runner:/gcp_runner gcr.io/deeplearning-platform-release/tf2-cpu.2-1 python -u -m gcp_runner.entry_point --module-name=gcp_runner.index --function-name=some_function_to_run_on_cloud
-in gcp_runner entry point<br>
-running entrypoint function: gcp_runner.index.some_function_to_run_on_cloud<br>
-running some_function_to_run_on_cloud<br>
-in main before sleep 1<br>
-in main after sleep 2<br>
-in main after sleep 3<br>
-in main after sleep 4</p>
-
+in gcp_runner entry point  
+running entrypoint function: gcp_runner.index.some_function_to_run_on_cloud  
+running some_function_to_run_on_cloud  
+in main before sleep 1  
+in main after sleep 2  
+in main after sleep 3  
+in main after sleep 4 
+</pre>
 </div>
 </div>
 </div>
@@ -248,42 +243,44 @@ in main after sleep 4</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Trimmed output:<br>
-Running training job using package on Google Cloud Platform AI:<br>
-gcloud ai-platform jobs submit training ai_platform_runner_train_package_20200327_131147 \<br>
- --runtime-version=2.1 \<br>
- --python-version=3.7 \<br>
- --stream-logs \<br>
- --module-name=gcp_runner.entry_point \<br>
- --package-path=/usr/local/google/home/alekseyv/vlasenkoalexey/gcp_runner/gcp_runner \<br>
- --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir \<br>
- --scale-tier=basic \<br>
- --use-chief-in-tf-config=True \<br>
- -- \<br>
- --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir \<br>
- --module-name=gcp_runner.index \<br>
- --function-name=some_function_to_run_on_cloud</p>
-<p>Job [ai_platform_runner_train_package_20200327_131147] submitted successfully.<br>
-INFO    2020-03-27 13:11:51 -0700   service     Validating job requirements...<br>
-INFO    2020-03-27 13:11:51 -0700   service     Job creation request has been successfully validated.<br>
-INFO    2020-03-27 13:11:51 -0700   service     Job ai_platform_runner_train_package_20200327_131147 is queued.<br>
-INFO    2020-03-27 13:11:51 -0700   service     Waiting for job to be provisioned.<br>
-INFO    2020-03-27 13:11:53 -0700   service     Waiting for training program to start.<br>
-...<br>
-INFO    2020-03-27 13:13:23 -0700   master-replica-0        Running command: python3 -m gcp_runner.entry_point --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir --module-name=gcp_runner.index --function-name=some_function_to_run_on_cloud --job-dir gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        in gcp_runner entry point<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        running entrypoint function: gcp_runner.index.some_function_to_run_on_cloud<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        additional args: ['--job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir', '--job-dir', 'gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir']<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        running some_function_to_run_on_cloud<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        in main before sleep 1<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        in main after sleep 2<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        in main after sleep 3<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        in main after sleep 4<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        Module completed; cleaning up.<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        Clean up finished.<br>
-INFO    2020-03-27 13:13:35 -0700   master-replica-0        Task completed successfully.<br>
-state: SUCCEEDED</p>
+<pre>
+Trimmed output:  
+Running training job using package on Google Cloud Platform AI:  
+gcloud ai-platform jobs submit training ai_platform_runner_train_package_20200327_131147 \\  
+ --runtime-version=2.1 \\   
+ --python-version=3.7 \\   
+ --stream-logs \\   
+ --module-name=gcp_runner.entry_point \\   
+ --package-path=/usr/local/google/home/alekseyv/vlasenkoalexey/gcp_runner/gcp_runner \\  
+ --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir \\  
+ --scale-tier=basic \\  
+ --use-chief-in-tf-config=True \\  
+ -- \\  
+ --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir \\  
+ --module-name=gcp_runner.index \\  
+ --function-name=some_function_to_run_on_cloud  
 
+Job [ai_platform_runner_train_package_20200327_131147] submitted successfully.  
+INFO    2020-03-27 13:11:51 -0700   service     Validating job requirements...  
+INFO    2020-03-27 13:11:51 -0700   service     Job creation request has been successfully validated.  
+INFO    2020-03-27 13:11:51 -0700   service     Job ai_platform_runner_train_package_20200327_131147 is queued.  
+INFO    2020-03-27 13:11:51 -0700   service     Waiting for job to be provisioned.  
+INFO    2020-03-27 13:11:53 -0700   service     Waiting for training program to start.  
+...  
+INFO    2020-03-27 13:13:23 -0700   master-replica-0        Running command: python3 -m gcp_runner.entry_point --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir --module-name=gcp_runner.index --function-name=some_function_to_run_on_cloud --job-dir gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        in gcp_runner entry point  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        running entrypoint function: gcp_runner.index.some_function_to_run_on_cloud  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        additional args: ['--job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir', '--job-dir', 'gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir']  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        running some_function_to_run_on_cloud  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        in main before sleep 1  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        in main after sleep 2  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        in main after sleep 3  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        in main after sleep 4  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        Module completed; cleaning up.  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        Clean up finished.  
+INFO    2020-03-27 13:13:35 -0700   master-replica-0        Task completed successfully.  
+state: SUCCEEDED 
+</pre>
 </div>
 </div>
 </div>
@@ -315,13 +312,14 @@ state: SUCCEEDED</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Trimmed output:<br>
-INFO    2020-03-27 13:01:57 -0700   master-replica-0        running some_function_to_run_on_cloud<br>
-INFO    2020-03-27 13:01:57 -0700   master-replica-0        in main before sleep 1<br>
-INFO    2020-03-27 13:01:59 -0700   master-replica-0        in main after sleep 2<br>
-INFO    2020-03-27 13:02:04 -0700   master-replica-0        in main after sleep 3<br>
-INFO    2020-03-27 13:02:09 -0700   master-replica-0        in main after sleep 4</p>
-
+<pre>
+Trimmed output:  
+INFO    2020-03-27 13:01:57 -0700   master-replica-0        running some_function_to_run_on_cloud  
+INFO    2020-03-27 13:01:57 -0700   master-replica-0        in main before sleep 1  
+INFO    2020-03-27 13:01:59 -0700   master-replica-0        in main after sleep 2  
+INFO    2020-03-27 13:02:04 -0700   master-replica-0        in main after sleep 3  
+INFO    2020-03-27 13:02:09 -0700   master-replica-0        in main after sleep 4  
+</pre>
 </div>
 </div>
 </div>
@@ -364,12 +362,20 @@ TODO: example how to run distributed hyper parameter tuner</p>
 </div>
 </div>
 
-</div>Trimmed output:
-kubernetes-runner-train-docker-chief-0		running some_function_to_run_on_cloud
-kubernetes-runner-train-docker-chief-0		in main before sleep 1
-kubernetes-runner-train-docker-chief-0		in main after sleep 2
-kubernetes-runner-train-docker-chief-0		in main after sleep 3
-kubernetes-runner-train-docker-chief-0		in main after sleep 4
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<pre>
+Trimmed output:  
+kubernetes-runner-train-docker-chief-0      running some_function_to_run_on_cloud  
+kubernetes-runner-train-docker-chief-0      in main before sleep 1  
+kubernetes-runner-train-docker-chief-0      in main after sleep 2  
+kubernetes-runner-train-docker-chief-0      in main after sleep 3  
+kubernetes-runner-train-docker-chief-0      in main after sleep 4  
+</pre>
+</div>
+</div>
+</div>
     {% endraw %}
 </div>
  
