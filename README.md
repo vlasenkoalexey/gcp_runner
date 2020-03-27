@@ -77,23 +77,15 @@ gcp_runner.local_runner.run_docker(
     build_docker_file=None)
 ```
 
-    Running in Docker container:
-    docker run -v /usr/local/google/home/alekseyv/vlasenkoalexey/gcp_runner/gcp_runner:/gcp_runner gcr.io/deeplearning-platform-release/tf2-cpu.2-1 python -u -m gcp_runner.entry_point --module-name=gcp_runner.index --function-name=some_function_to_run_on_cloud
-    in gcp_runner entry point
-    running entrypoint function: gcp_runner.index.some_function_to_run_on_cloud
-    running some_function_to_run_on_cloud
-    in main before sleep 1
-    in main after sleep 2
-    in main after sleep 3
-    in main after sleep 4
-
-
-
-
-
-    0
-
-
+Running in Docker container:  
+docker run -v /usr/local/google/home/alekseyv/vlasenkoalexey/gcp_runner/gcp_runner:/gcp_runner gcr.io/deeplearning-platform-release/tf2-cpu.2-1 python -u -m gcp_runner.entry_point --module-name=gcp_runner.index --function-name=some_function_to_run_on_cloud
+in gcp_runner entry point  
+running entrypoint function: gcp_runner.index.some_function_to_run_on_cloud  
+running some_function_to_run_on_cloud  
+in main before sleep 1  
+in main after sleep 2  
+in main after sleep 3  
+in main after sleep 4  
 
 ### Running on Google Cloud AI Platform
 
@@ -108,44 +100,44 @@ gcp_runner.ai_platform_runner.run_package(
      some_function_to_run_on_cloud, 
      'gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir')
 ```
-Trimmed output:
-Running training job using package on Google Cloud Platform AI:
-gcloud ai-platform jobs submit training ai_platform_runner_train_package_20200327_131147 \ 
- --runtime-version=2.1 \ 
- --python-version=3.7 \ 
- --stream-logs \ 
- --module-name=gcp_runner.entry_point \ 
- --package-path=/usr/local/google/home/alekseyv/vlasenkoalexey/gcp_runner/gcp_runner \ 
- --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir \ 
- --scale-tier=basic \ 
- --use-chief-in-tf-config=True \ 
- -- \ 
- --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir \ 
- --module-name=gcp_runner.index \ 
- --function-name=some_function_to_run_on_cloud
+
+Trimmed output:  
+Running training job using package on Google Cloud Platform AI:  
+gcloud ai-platform jobs submit training ai_platform_runner_train_package_20200327_131147 \\  
+ --runtime-version=2.1 \\   
+ --python-version=3.7 \\   
+ --stream-logs \\   
+ --module-name=gcp_runner.entry_point \\   
+ --package-path=/usr/local/google/home/alekseyv/vlasenkoalexey/gcp_runner/gcp_runner \\  
+ --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir \\  
+ --scale-tier=basic \\  
+ --use-chief-in-tf-config=True \\  
+ -- \\  
+ --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir \\  
+ --module-name=gcp_runner.index \\  
+ --function-name=some_function_to_run_on_cloud  
         
-Job [ai_platform_runner_train_package_20200327_131147] submitted successfully.
-INFO	2020-03-27 13:11:51 -0700	service		Validating job requirements...
-INFO	2020-03-27 13:11:51 -0700	service		Job creation request has been successfully validated.
-INFO	2020-03-27 13:11:51 -0700	service		Job ai_platform_runner_train_package_20200327_131147 is queued.
-INFO	2020-03-27 13:11:51 -0700	service		Waiting for job to be provisioned.
-INFO	2020-03-27 13:11:53 -0700	service		Waiting for training program to start.
-...
-INFO	2020-03-27 13:13:23 -0700	master-replica-0		Running command: python3 -m gcp_runner.entry_point --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir --module-name=gcp_runner.index --function-name=some_function_to_run_on_cloud --job-dir gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		in gcp_runner entry point
-ERROR	2020-03-27 13:13:35 -0700	master-replica-0		/root/.local/lib/python3.7/site-packages/gcp_runner/entry_point.py:30: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		running entrypoint function: gcp_runner.index.some_function_to_run_on_cloud
-ERROR	2020-03-27 13:13:35 -0700	master-replica-0		  args_spec = inspect.getargspec(func)
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		additional args: ['--job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir', '--job-dir', 'gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir']
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		running some_function_to_run_on_cloud
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		in main before sleep 1
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		in main after sleep 2
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		in main after sleep 3
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		in main after sleep 4
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		Module completed; cleaning up.
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		Clean up finished.
-INFO	2020-03-27 13:13:35 -0700	master-replica-0		Task completed successfully.
-state: SUCCEEDED
+Job [ai_platform_runner_train_package_20200327_131147] submitted successfully.  
+INFO	2020-03-27 13:11:51 -0700	service		Validating job requirements...  
+INFO	2020-03-27 13:11:51 -0700	service		Job creation request has been successfully validated.  
+INFO	2020-03-27 13:11:51 -0700	service		Job ai_platform_runner_train_package_20200327_131147 is queued.  
+INFO	2020-03-27 13:11:51 -0700	service		Waiting for job to be provisioned.  
+INFO	2020-03-27 13:11:53 -0700	service		Waiting for training program to start.  
+...  
+INFO	2020-03-27 13:13:23 -0700	master-replica-0		Running command: python3 -m gcp_runner.entry_point --job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir --module-name=gcp_runner.index --function-name=some_function_to_run_on_cloud --job-dir gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		in gcp_runner entry point  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		running entrypoint function: gcp_runner.index.some_function_to_run_on_cloud  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		additional args: ['--job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir', '--job-dir', 'gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir']  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		running some_function_to_run_on_cloud  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		in main before sleep 1  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		in main after sleep 2  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		in main after sleep 3  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		in main after sleep 4  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		Module completed; cleaning up.  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		Clean up finished.  
+INFO	2020-03-27 13:13:35 -0700	master-replica-0		Task completed successfully.  
+state: SUCCEEDED  
+
 Running as a custom Docker container on Google Cloud AI Platform:
 
 ```python
@@ -157,12 +149,14 @@ gcp_runner.ai_platform_runner.run_docker_image(
     build_docker_file='Dockerfile',
     master_image_uri='gcr.io/alekseyv-scalableai-dev/tf2-cpu.2-1')
 ```
-Trimmed output:
-INFO	2020-03-27 13:01:57 -0700	master-replica-0		running some_function_to_run_on_cloud
-INFO	2020-03-27 13:01:57 -0700	master-replica-0		in main before sleep 1
-INFO	2020-03-27 13:01:59 -0700	master-replica-0		in main after sleep 2
-INFO	2020-03-27 13:02:04 -0700	master-replica-0		in main after sleep 3
-INFO	2020-03-27 13:02:09 -0700	master-replica-0		in main after sleep 4
+
+Trimmed output:  
+INFO	2020-03-27 13:01:57 -0700	master-replica-0		running some_function_to_run_on_cloud  
+INFO	2020-03-27 13:01:57 -0700	master-replica-0		in main before sleep 1  
+INFO	2020-03-27 13:01:59 -0700	master-replica-0		in main after sleep 2  
+INFO	2020-03-27 13:02:04 -0700	master-replica-0		in main after sleep 3  
+INFO	2020-03-27 13:02:09 -0700	master-replica-0		in main after sleep 4  
+
 TODO: example how to run distributed training
 TODO: example how to run distributed hyper parameter tuner
 
