@@ -4,8 +4,12 @@
 
 ## Install
 
-TODO: upload to pypi
-`pip install gcp_runner`
+```sh
+git clone https://github.com/vlasenkoalexey/gcp_runner
+pip install -e gcp_runner
+
+#TODO: upload to pypi
+```
 
 ## How to use
 
