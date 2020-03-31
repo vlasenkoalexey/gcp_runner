@@ -144,7 +144,7 @@ def run_docker_image(
     print('running training job using Docker image Google Cloud Platform AI:')
     print(' '.join(args).replace(' --', '\n --').replace('\n', ' \\ \n'))
     if not dry_run:
-        return gcp_runner.local_runner.run_process(args)
+        return run_process(args)
 
 
 # Cell
@@ -234,4 +234,4 @@ def run_package(
     print(' '.join(args).replace(' --', '\n --').replace('\n', ' \\ \n'))
 
     if not dry_run:
-        return gcp_runner.local_runner.run_process(args)
+        return run_process(args)
