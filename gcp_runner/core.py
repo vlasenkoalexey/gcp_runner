@@ -149,11 +149,11 @@ def run_process(args, **kwargs):
 
 # Cell
 
-def get_run_python_args(func, **kwargs):
+def get_run_python_args(func, python_binary='python', **kwargs):
     package_name = get_package_name()
     module_name = get_module_name()
     function_name = func.__name__
-    args = ['python',
+    args = [python_binary,
          '-u',
          '-m',
          'gcp_runner.entry_point',

@@ -5,8 +5,8 @@ __all__ = ['run_python', 'run_docker', 'run_on_ai_platform']
 # Cell
 from .core import get_run_python_args, run_process
 
-def run_python(func, **kwargs):
-    args = get_run_python_args(func, **kwargs)
+def run_python(func, python_binary='python', **kwargs):
+    args = get_run_python_args(func, python_binary, **kwargs)
     print('Running as python script:')
     print(' '.join(args))
     run_process(args)
