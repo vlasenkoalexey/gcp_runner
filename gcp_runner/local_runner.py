@@ -15,9 +15,9 @@ def run_python(func, python_binary='python', **kwargs):
 import os
 from .core import get_run_python_args, run_process, get_package_name, build_and_push_docker_image
 
-def run_docker(func, image_uri, build_docker_file=None, docker_args=None, dry_run=False, **kwargs):
+def run_docker(func, image_uri, build_docker_file=None, push_docker=False, docker_args=None, dry_run=False, **kwargs):
     if build_docker_file is not None:
-        result = build_and_push_docker_image(build_docker_file, image_uri, dry_run=dry_run)
+        result = build_and_push_docker_image(build_docker_file, image_uri, push_docker, dry_run=dry_run)
         if result:
             return result
 

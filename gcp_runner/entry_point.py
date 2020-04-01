@@ -32,9 +32,9 @@ def get_distribution_strategy_instance(distribution_strategy_type:DistributionSt
         logging.info(
             'training using TPUStrategy, tpu.cluster_spec: %s', tpu.cluster_spec())
         return distribution_strategy
-    elif args.distribution_strategy == DistributionStrategyType.ONE_DEVICE_STRATEGY:
+    elif distribution_strategy_type == DistributionStrategyType.ONE_DEVICE_STRATEGY:
         return tf.distribute.OneDeviceStrategy(device="/cpu:0")
-    elif args.distribution_strategy:
+    elif distribution_strategy_type:
         return eval(args.distribution_strategy)()
 
 def parse_unknown_args(unknown_args):

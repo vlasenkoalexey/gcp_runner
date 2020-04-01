@@ -166,7 +166,7 @@ def get_run_python_args(func, python_binary='python', **kwargs):
     return args
 
 # Cell
-def build_and_push_docker_image(docker_file_path, image_uri, dry_run=False):
+def build_and_push_docker_image(docker_file_path, image_uri, push_docker=True, dry_run=False):
     build_docker_args = ['docker', 'build', '-f', docker_file_path, '-t', image_uri, './']
     print('Building Docker image:')
     print(' '.join(build_docker_args))
@@ -174,11 +174,12 @@ def build_and_push_docker_image(docker_file_path, image_uri, dry_run=False):
         result = run_process(build_docker_args)
         if result:
             return result
-    push_docker_args = ['docker', 'push', image_uri]
-    print('Pushing Docker image:')
-    print(' '.join(push_docker_args))
-    if not dry_run:
-        result = run_process(push_docker_args)
-        if result:
-            return result
+    if push_docker:
+        push_docker_args = ['docker', 'push', image_uri]
+        print('Pushing Docker image:')
+        print(' '.join(push_docker_args))
+        if not dry_run:
+            result = run_process(push_docker_args)
+            if result:
+                return result
     return 0
