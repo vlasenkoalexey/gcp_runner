@@ -9,6 +9,7 @@ import time
 import importlib
 import inspect
 import logging
+import re
 from .ai_platform_constants import DistributionStrategyType
 
 def get_distribution_strategy_instance(distribution_strategy_type:DistributionStrategyType):
@@ -71,6 +72,7 @@ def main():
 
     print('additional args: %s' % str(unknown_args))
     args_spec = inspect.getargspec(func)
+    print(args_spec)
     if args_spec is None or args_spec.keywords is None or len(args_spec.keywords) == 0:
         print('provided function does not take any arguments, running as is')
         return func()
