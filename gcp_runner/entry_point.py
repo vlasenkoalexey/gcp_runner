@@ -35,7 +35,7 @@ def get_distribution_strategy_instance(distribution_strategy_type:DistributionSt
     elif distribution_strategy_type == DistributionStrategyType.ONE_DEVICE_STRATEGY:
         return tf.distribute.OneDeviceStrategy(device="/cpu:0")
     elif distribution_strategy_type:
-        return eval(args.distribution_strategy)()
+        return eval(distribution_strategy_type.value)()
 
 def parse_unknown_args(unknown_args):
     kwargs = {}
@@ -86,7 +86,7 @@ def main():
     if distribution_strategy is not None:
         kwargs['distribution_strategy'] = distribution_strategy
 
-    return func(kwargs)
+    return func(**kwargs)
 
 if __name__ == '__main__':
     main()
