@@ -85,13 +85,14 @@ def main():
     distribution_strategy = None
     kwargs = parse_unknown_args(unknown_args)
     if (args.distribution_strategy_type is not None):
-        distribution_strategy_type = DistributionStrategyType(args.distribution_strategy)
+        distribution_strategy_type = DistributionStrategyType(args.distribution_strategy_type)
         distribution_strategy = get_distribution_strategy_instance(distribution_strategy_type)
         kwargs['distribution_strategy_type'] = distribution_strategy_type
 
     if distribution_strategy is not None:
         kwargs['distribution_strategy'] = distribution_strategy
         if args.use_distribution_strategy_scope:
+            print('running code in %s scope', args.distribution_strategy_type)
             with distribution_strategy.scope():
                 return func(**kwargs)
 
