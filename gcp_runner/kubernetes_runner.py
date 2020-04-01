@@ -5,8 +5,11 @@ __all__ = ['run_docker_image']
 # Cell
 import datetime
 import jinja2
+import errno
 import os
+import os.path
 import tempfile
+import gcp_runner.core
 
 from gcp_runner import ai_platform_constants
 from .core import build_and_push_docker_image, run_process, get_run_python_args
@@ -14,14 +17,37 @@ from .core import build_and_push_docker_image, run_process, get_run_python_args
 def _get_not_none(arg, default):
     return default if arg is None else arg
 
+def _find_project_file(file_name):
+    searched_dirs = []
+    # Look in current directory when running from notebook
+    template_path = os.path.join(os.getcwd(), file_name)
+    if os.path.isfile(template_path):
+        return template_path
+    searched_dirs.append(template_path)
+
+    # Look in package directory when running pip installed package
+    template_path = os.path.join(os.path.dirname(gcp_runner.core.__file__), file_name)
+    if os.path.isfile(template_path):
+        return template_path
+    searched_dirs.append(template_path)
+
+    # Look in package parent directory when running editable pip installed package
+    template_path = os.path.join(os.path.dirname(os.path.dirname(gcp_runner.core.__file__)), file_name)
+    if os.path.isfile(template_path):
+        return template_path
+    searched_dirs.append(template_path)
+    error_message = 'niether %s can be found' % searched_dirs.join(',')
+    raise FileNotFoundError(
+        errno.ENOENT, error_message, file_name)
+
 def run_docker_image(
     func,
     job_dir,
+    image_uri,
     build_docker_file=None,
     dry_run=False,
     job_name=None,
     region=None,
-    image_uri=None,
     port=5000,
     privileged=False,
     master_machine_type: ai_platform_constants.MachineType = None,
@@ -86,7 +112,7 @@ def run_docker_image(
 
     #TODO: properly pass args to python
     yaml = None
-    with open("template.yaml.jinja", "r") as f:
+    with open(_find_project_file("template.yaml.jinja"), "r") as f:
         print('Generating kubernetes YAML file:')
         yaml = (jinja2.Template(f.read()).render(
             name=job_name,
@@ -134,5 +160,4 @@ def run_docker_image(
         return result
 
     print('Polling Kubernetes logs:')
-    run_process(['./poll_kubernetes_logs.sh'])
-
+    run_process([_find_project_file('poll_kubernetes_logs.sh')])
