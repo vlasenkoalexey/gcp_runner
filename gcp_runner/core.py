@@ -159,6 +159,10 @@ def get_run_python_args(func, python_binary='python', **kwargs):
          'gcp_runner.entry_point',
          '--module-name=%s' % package_name + '.' + module_name,
          '--function-name=%s' % function_name]
+    if kwargs is not None:
+        for key,value in kwargs.items():
+            args.append('--%s=%s' % (key.replace('_', '-'), str(value)))
+
     return args
 
 # Cell
