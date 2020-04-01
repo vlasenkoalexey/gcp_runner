@@ -12,7 +12,7 @@ import tempfile
 import gcp_runner.core
 
 from gcp_runner import ai_platform_constants
-from .core import build_and_push_docker_image, run_process, get_run_python_args
+from .core import build_and_push_docker_image, run_process, get_run_python_args, format_job_dir, print_tensorboard_command
 
 def _get_not_none(arg, default):
     return default if arg is None else arg
@@ -60,6 +60,7 @@ def run_docker_image(
     work_accelerator_count=None,
     tpu_count=None,
     distribution_strategy_type: ai_platform_constants.DistributionStrategyType = None,
+    use_distribution_strategy_scope: bool = None,
     **kwargs):
 
     if not image_uri:
@@ -72,6 +73,9 @@ def run_docker_image(
         result = build_and_push_docker_image(build_docker_file, image_uri, dry_run=dry_run)
         if result:
             return result
+
+    job_dir = format_job_dir(job_dir)
+    print_tensorboard_command(job_dir)
 
     master_machine_count = 1
     if distribution_strategy_type == ai_platform_constants.DistributionStrategyType.MIRRORED_STRATEGY:
@@ -109,6 +113,8 @@ def run_docker_image(
     run_python_args.append("--job-dir=%s" % job_dir)
     if distribution_strategy_type is not None:
         run_python_args.append("--distribution-strategy-type=%s" % distribution_strategy_type)
+        if use_distribution_strategy_scope:
+            run_python_args.append("--use-distribution-strategy-scope")
 
     #TODO: properly pass args to python
     yaml = None
@@ -136,7 +142,10 @@ def run_docker_image(
     #command = 'kubectl delete pod,service,PodSecurityPolicy --all'
     command = 'kubectl delete namespace kubernetes-runner-namespace'
     print(command)
-    run_process(command.split(' '))
+    if not dry_run:
+        result = run_process(command.split(' '))
+        if result:
+            return result
 
     fd, path = tempfile.mkstemp()
     try:
@@ -150,14 +159,22 @@ def run_docker_image(
     #args = ['kubectl', 'delete', 'pod,service,PodSecurityPolicy', '--all']
     command = 'kubectl create namespace kubernetes-runner-namespace'
     print(command)
-    run_process(command.split(' '))
+    if not dry_run:
+        result = run_process(command.split(' '))
+        if result:
+            return result
 
     print('Creating Kubernetes cluster:')
     command = 'kubectl create -f %s --namespace=kubernetes-runner-namespace' % path
     print(command)
-    result = run_process(command.split(' '))
-    if result:
-        return result
+    if not dry_run:
+        result = run_process(command.split(' '))
+        if result:
+            return result
 
+    print('See logs at:') # TODO: provide non-google link as well
+    print('https://pantheon.corp.google.com/logs/viewer?minLogLevel=0&expandAll=false&'
+          'advancedFilter=resource.type%3D%22container%22%0Aresource.labels.namespace_id%3D%22'
+          'kubernetes-runner-namespace%22&dateRangeStart=' + datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))
     print('Polling Kubernetes logs:')
-    run_process([_find_project_file('poll_kubernetes_logs.sh')])
+    return run_process([_find_project_file('poll_kubernetes_logs.sh')])

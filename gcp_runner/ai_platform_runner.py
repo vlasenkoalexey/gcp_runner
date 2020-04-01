@@ -65,7 +65,7 @@ def _get_common_args(
 
 # Cell
 import datetime
-from .core import build_and_push_docker_image, run_process, get_run_python_args
+from .core import build_and_push_docker_image, run_process, get_run_python_args, format_job_dir, print_tensorboard_command
 from gcp_runner import ai_platform_constants
 
 def run_docker_image(
@@ -97,8 +97,11 @@ def run_docker_image(
     if not master_image_uri:
         raise ValueError('master_image_uri argument is required')
 
+    date_time = datetime.datetime.now()
     if not job_name:
-        job_name = 'ai_platform_runner_train_docker_' + datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+        job_name = 'ai_platform_runner_train_docker_' + date_time.strftime('%Y%m%d_%H%M%S')
+    job_dir = format_job_dir(job_dir, date_time=date_time)
+    print_tensorboard_command(job_dir)
 
     if build_docker_file is not None:
         result = build_and_push_docker_image(build_docker_file, master_image_uri, dry_run=dry_run)
@@ -150,7 +153,7 @@ def run_docker_image(
 # Cell
 import os
 import datetime
-from .core import get_run_python_args, run_process, get_package_name, get_module_name
+from .core import get_run_python_args, run_process, get_package_name, get_module_name, format_job_dir, print_tensorboard_command
 from gcp_runner import ai_platform_constants
 
 #IMPORTANT: we'll need to either copy entry_point.py to package,
@@ -183,8 +186,12 @@ def run_package(
     distribution_strategy_type: ai_platform_constants.DistributionStrategyType = None,
     **kwargs):
 
+    date_time = datetime.datetime.now()
     if not job_name:
-        job_name = 'ai_platform_runner_train_package_' + datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+        job_name = 'ai_platform_runner_train_package_' + date_time.strftime('%Y%m%d_%H%M%S')
+
+    job_dir = format_job_dir(job_dir, date_time=date_time)
+    print_tensorboard_command(job_dir)
 
     # see https://cloud.google.com/sdk/gcloud/reference/ai-platform/jobs/submit/training
     package_name = get_package_name()

@@ -2,7 +2,7 @@
 
 __all__ = ['get_notebook_path', 'find_default_export_for_notebook', 'get_module_name', 'get_package_name',
            'reload_package_modules', 'export_and_reload_all', 'run_process', 'get_run_python_args',
-           'build_and_push_docker_image']
+           'build_and_push_docker_image', 'format_job_dir', 'print_tensorboard_command']
 
 # Cell
 import IPython.core
@@ -183,3 +183,20 @@ def build_and_push_docker_image(docker_file_path, image_uri, push_docker=True, d
             if result:
                 return result
     return 0
+
+# Cell
+import datetime
+import getpass
+
+def format_job_dir(job_dir, date_time:datetime.datetime=None):
+    if date_time is None:
+        date_time = datetime.datetime.now()
+    return job_dir.format(**{'datetime':datetime.datetime.now().strftime('%Y%m%d_%H%M%S'), 'username': getpass.getuser()})
+
+format_job_dir('model_{datetime}_{username}')
+
+# Cell
+
+def print_tensorboard_command(job_dir):
+    print('To see job output in tensorboard, run following command:')
+    print('tensorboard --logdir=%s', job_dir)

@@ -37,7 +37,7 @@ def run_docker(func, image_uri, build_docker_file=None, push_docker=False, docke
 
 
 # Cell
-from .core import get_run_python_args, run_process, get_package_name, get_module_name
+from .core import get_run_python_args, run_process, get_package_name, get_module_name, format_job_dir, print_tensorboard_command
 
 #IMPORTANT: we'll need to either copy entry_point.py to package,
 # or tell user to declare it and call into similar entry_point logic manually.
@@ -47,6 +47,10 @@ def run_on_ai_platform(func, job_dir):
     package_name = get_package_name()
     module_name = get_module_name()
     function_name = func.__name__
+
+    job_dir = format_job_dir(job_dir, date_time=date_time)
+    print_tensorboard_command(job_dir)
+
     args = ['gcloud', 'ai-platform', 'local', 'train',
            "--job-dir=%s" % job_dir,
            "--module-name=%s.entry_point" % package_name,

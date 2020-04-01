@@ -59,9 +59,14 @@ def main():
         help='function name to run',
         required=True)
     args_parser.add_argument(
-        '--distribution-strategy',
+        '--distribution-strategy-type',
         help='distribution strategy',
         choices=list([e.value for e in DistributionStrategyType]))
+    args_parser.add_argument(
+        '--use-distribution-strategy-scope',
+        action='store_true',
+        help='whether to run training in a distribution strategy scope',
+        default=False)
 
     args, unknown_args = args_parser.parse_known_args()
     print('running entrypoint function: %s.%s' % (args.module_name, args.function_name))
@@ -78,15 +83,19 @@ def main():
         return func()
 
     distribution_strategy = None
-    if (args.distribution_strategy is not None):
+    kwargs = parse_unknown_args(unknown_args)
+    if (args.distribution_strategy_type is not None):
         distribution_strategy_type = DistributionStrategyType(args.distribution_strategy)
         distribution_strategy = get_distribution_strategy_instance(distribution_strategy_type)
+        kwargs['distribution_strategy_type'] = distribution_strategy_type
 
-    kwargs = parse_unknown_args(unknown_args)
     if distribution_strategy is not None:
         kwargs['distribution_strategy'] = distribution_strategy
+        if args.use_distribution_strategy_scope:
+            with distribution_strategy.scope():
+                return func(**kwargs)
 
-    return func(**kwargs)
+    func(**kwargs)
 
 if __name__ == '__main__':
     main()
