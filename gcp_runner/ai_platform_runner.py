@@ -4,7 +4,7 @@ __all__ = ['run_docker_image', 'run_package']
 
 # Cell
 import inspect
-from gcp_runner import ai_platform_constants
+from .ai_platform_constants import *
 
 def _get_not_none(arg, default):
     return default if arg is None else arg
@@ -13,45 +13,49 @@ def _get_common_args(
     job_dir,
     job_name=None,
     region=None,
-    scale_tier: ai_platform_constants.ScaleTier = ai_platform_constants.ScaleTier.BASIC,
-    master_machine_type: ai_platform_constants.MachineType = None,
+    scale_tier: ScaleTier = ScaleTier.CUSTOM,
+    master_machine_type: MachineType = None,
     master_image_uri=None,
-    master_accelerator_type: ai_platform_constants.AcceleratorType = None,
+    master_accelerator_type: AcceleratorType = None,
     master_accelerator_count=None,
-    parameter_machine_type: ai_platform_constants.MachineType = None,
+    parameter_machine_type: MachineType = None,
     parameter_machine_count=None,
     parameter_image_uri=None,
-    parameter_accelerator_type: ai_platform_constants.AcceleratorType = None,
+    parameter_accelerator_type: AcceleratorType = None,
     parameter_accelerator_count=None,
-    worker_machine_type: ai_platform_constants.MachineType = None,
+    worker_machine_type: MachineType = None,
     worker_machine_count=None,
     worker_image_uri=None,
-    work_accelerator_type: ai_platform_constants.AcceleratorType = None,
+    work_accelerator_type: AcceleratorType = None,
     work_accelerator_count=None,
     use_chief_in_tf_config=True,
-    distribution_strategy_type: ai_platform_constants.DistributionStrategyType = None):
+    distribution_strategy_type: DistributionStrategyType = None):
     args = []
 
-    if distribution_strategy_type and scale_tier == ai_platform_constants.ScaleTier.CUSTOM:
-        master_machine_type = _get_not_none(master_machine_type, ai_platform_constants.MachineType.N1_STANDARD_4)
-        if distribution_strategy_type == ai_platform_constants.DistributionStrategyType.MIRRORED_STRATEGY:
-            master_accelerator_type = _get_not_none (master_accelerator_type, ai_platform_constants.AcceleratorType.NVIDIA_TESLA_K80)
+    if distribution_strategy_type and scale_tier == ScaleTier.CUSTOM:
+        master_machine_type = _get_not_none(master_machine_type, MachineType.N1_STANDARD_4)
+        if distribution_strategy_type == DistributionStrategyType.MIRRORED_STRATEGY:
+            master_accelerator_type = _get_not_none (master_accelerator_type, AcceleratorType.NVIDIA_TESLA_K80)
             master_accelerator_count = _get_not_none(master_accelerator_count, 2)
             worker_machine_count = _get_not_none(worker_machine_count, 0)
-        elif distribution_strategy_type == ai_platform_constants.DistributionStrategyType.CENTRAL_STORAGE_STRATEGY:
-            master_accelerator_type = _get_not_none (master_accelerator_type, ai_platform_constants.AcceleratorType.NVIDIA_TESLA_K80)
+        elif distribution_strategy_type == DistributionStrategyType.CENTRAL_STORAGE_STRATEGY:
+            master_accelerator_type = _get_not_none (master_accelerator_type, AcceleratorType.NVIDIA_TESLA_K80)
             master_accelerator_count = _get_not_none(master_accelerator_count, 2)
             worker_machine_count = _get_not_none(worker_machine_count, 0)
-        elif distribution_strategy_type == ai_platform_constants.DistributionStrategyType.PARAMETER_SERVERSTRATEGY:
-            parameter_machine_type = _get_not_none(parameter_machine_type, ai_platform_constants.MachineType.N1_STANDARD_4)
+        elif distribution_strategy_type == DistributionStrategyType.PARAMETER_SERVERSTRATEGY:
+            parameter_machine_type = _get_not_none(parameter_machine_type, MachineType.N1_STANDARD_4)
             parameter_machine_count = _get_not_none(parameter_machine_count, 1)
             worker_machine_count = _get_not_none(worker_machine_count, 2)
-        elif args.distribution_strategy == ai_platform_constants.DistributionStrategyType.MULTI_WORKER_MIRRORED_STRATEGY:
-            master_accelerator_type = _get_not_none (master_accelerator_type, ai_platform_constants.AcceleratorType.NVIDIA_TESLA_K80)
+        elif args.distribution_strategy == DistributionStrategyType.MULTI_WORKER_MIRRORED_STRATEGY:
+            master_accelerator_type = _get_not_none (master_accelerator_type, AcceleratorType.NVIDIA_TESLA_K80)
             master_accelerator_count = _get_not_none(master_accelerator_count, 2)
             worker_machine_count = _get_not_none(worker_machine_count, 2)
-            work_accelerator_type = _get_not_none (work_accelerator_type, ai_platform_constants.AcceleratorType.NVIDIA_TESLA_K80)
-            worker_machine_type = _get_not_none(worker_machine_type, ai_platform_constants.MachineType.N1_STANDARD_4)
+            work_accelerator_type = _get_not_none (work_accelerator_type, AcceleratorType.NVIDIA_TESLA_K80)
+            worker_machine_type = _get_not_none(worker_machine_type, MachineType.N1_STANDARD_4)
+
+    if distribution_strategy_type == DistributionStrategyType.TPU_STRATEGY:
+        print('changing scale_tier to BASIC_TPU to run with TPU_STRATEGY')
+        scale_tier = ScaleTier.BASIC_TPU
 
     for key, value in locals().items():
         # print(key + '=' + str(value))

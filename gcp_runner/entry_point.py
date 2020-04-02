@@ -92,7 +92,7 @@ def main():
     if distribution_strategy is not None:
         kwargs['distribution_strategy'] = distribution_strategy
         if args.use_distribution_strategy_scope:
-            print('running code in %s scope', args.distribution_strategy_type)
+            print('running code in %s scope' % args.distribution_strategy_type)
             with distribution_strategy.scope():
                 return func(**kwargs)
 
