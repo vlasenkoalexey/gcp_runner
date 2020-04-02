@@ -79,7 +79,7 @@ def run_docker_image(
     dry_run=False,
     job_name=None,
     region=None,
-    scale_tier: ai_platform_constants.ScaleTier =  ai_platform_constants.ScaleTier.BASIC,
+    scale_tier: ai_platform_constants.ScaleTier =  ai_platform_constants.ScaleTier.CUSTOM,
     master_machine_type: ai_platform_constants.MachineType = None,
     master_image_uri=None,
     master_accelerator_type: ai_platform_constants.AcceleratorType = None,
@@ -96,6 +96,7 @@ def run_docker_image(
     work_accelerator_count=None,
     use_chief_in_tf_config=True,
     distribution_strategy_type: ai_platform_constants.DistributionStrategyType = None,
+    use_distribution_strategy_scope: bool = None,
     **kwargs):
 
     if not master_image_uri:
@@ -147,6 +148,8 @@ def run_docker_image(
     args.append("--job-dir=%s" % job_dir)
     if distribution_strategy_type:
         args.append("--distribution-strategy-type=%s" % distribution_strategy_type)
+        if use_distribution_strategy_scope:
+            args.append("--use-distribution-strategy-scope")
 
     print('running training job using Docker image Google Cloud Platform AI:')
     print(' '.join(args).replace(' --', '\n --').replace('\n', ' \\ \n'))
@@ -171,7 +174,7 @@ def run_package(
     python_version='3.7',
     dry_run=False,
     region=None,
-    scale_tier: ai_platform_constants.ScaleTier =  ai_platform_constants.ScaleTier.BASIC,
+    scale_tier: ai_platform_constants.ScaleTier =  ai_platform_constants.ScaleTier.CUSTOM,
     master_machine_type: ai_platform_constants.MachineType = None,
     master_image_uri=None,
     master_accelerator_type: ai_platform_constants.AcceleratorType = None,
@@ -188,6 +191,7 @@ def run_package(
     work_accelerator_count=None,
     use_chief_in_tf_config=True,
     distribution_strategy_type: ai_platform_constants.DistributionStrategyType = None,
+    use_distribution_strategy_scope: bool = None,
     **kwargs):
 
     date_time = datetime.datetime.now()
@@ -240,6 +244,8 @@ def run_package(
 
     if distribution_strategy_type:
         args.append("--distribution-strategy-type=%s" % distribution_strategy_type)
+        if use_distribution_strategy_scope:
+            args.append("--use-distribution-strategy-scope")
 
     print('running training job using package on Google Cloud Platform AI:')
     print(' '.join(args).replace(' --', '\n --').replace('\n', ' \\ \n'))
