@@ -4,10 +4,23 @@ __all__ = ['run_docker_image', 'run_package']
 
 # Cell
 import inspect
+from enum import Enum
 from .ai_platform_constants import *
 
 def _get_not_none(arg, default):
     return default if arg is None else arg
+
+def _format_arg(key, value):
+    return "--%s=%s" % (key.replace('_', '-'), value)
+
+def _append_arg(args, key, value):
+    if value is not None:
+        if issubclass(type(value), Enum):
+            value = value.value
+        if issubclass(type(value), int) and value == 0:
+            return
+
+        args.append(_format_arg(key, value))
 
 def _get_common_args(
     job_dir,
@@ -26,8 +39,8 @@ def _get_common_args(
     worker_machine_type: MachineType = None,
     worker_machine_count=None,
     worker_image_uri=None,
-    work_accelerator_type: AcceleratorType = None,
-    work_accelerator_count=None,
+    worker_accelerator_type: AcceleratorType = None,
+    worker_accelerator_count=None,
     use_chief_in_tf_config=True,
     distribution_strategy_type: DistributionStrategyType = None):
     args = []
@@ -46,25 +59,54 @@ def _get_common_args(
             parameter_machine_type = _get_not_none(parameter_machine_type, MachineType.N1_STANDARD_4)
             parameter_machine_count = _get_not_none(parameter_machine_count, 1)
             worker_machine_count = _get_not_none(worker_machine_count, 2)
-        elif args.distribution_strategy == DistributionStrategyType.MULTI_WORKER_MIRRORED_STRATEGY:
+            worker_machine_type = _get_not_none(worker_machine_type, MachineType.N1_STANDARD_4)
+        elif distribution_strategy_type == DistributionStrategyType.MULTI_WORKER_MIRRORED_STRATEGY:
             master_accelerator_type = _get_not_none (master_accelerator_type, AcceleratorType.NVIDIA_TESLA_K80)
             master_accelerator_count = _get_not_none(master_accelerator_count, 2)
             worker_machine_count = _get_not_none(worker_machine_count, 2)
-            work_accelerator_type = _get_not_none (work_accelerator_type, AcceleratorType.NVIDIA_TESLA_K80)
+            worker_accelerator_type = _get_not_none (worker_accelerator_type, AcceleratorType.NVIDIA_TESLA_K80)
             worker_machine_type = _get_not_none(worker_machine_type, MachineType.N1_STANDARD_4)
 
-    if distribution_strategy_type == DistributionStrategyType.TPU_STRATEGY:
+    if distribution_strategy_type == DistributionStrategyType.TPU_STRATEGY and \
+        (master_accelerator_count == 0 or master_accelerator_type is None):
         print('changing scale_tier to BASIC_TPU to run with TPU_STRATEGY')
         scale_tier = ScaleTier.BASIC_TPU
 
-    for key, value in locals().items():
-        # print(key + '=' + str(value))
-        if key != 'args' and key != 'distribution_strategy_type' and value:
-            if key.endswith('_type') or key == 'scale_tier':
-                args.append("--%s=%s" % (key.replace('_', '-'), value.value))
-            else:
-                args.append("--%s=%s" % (key.replace('_', '-'), value))
+# Nice way ot automatically setting flags, keeping for now for future reference
+#     for key, value in locals().items():
+#         # print(key + '=' + str(value))
+#         if key != 'args' and key != 'distribution_strategy_type' and value:
+#             if key.endswith('_type') or key == 'scale_tier':
+#                 args.append("--%s=%s" % (key.replace('_', '-'), value.value))
+#             else:
+#                 args.append("--%s=%s" % (key.replace('_', '-'), value))
 
+    # For flags overview refer to
+    # https://cloud.google.com/sdk/gcloud/reference/ai-platform/jobs/submit/training
+    accelerator_format = 'count=%d,type=%s'
+    _append_arg(args, 'job-dir', job_dir)
+    _append_arg(args, 'job-name', job_name)
+    _append_arg(args, 'region', region)
+    _append_arg(args, 'scale-tier', scale_tier)
+
+    _append_arg(args, 'master-machine-type', master_machine_type)
+    _append_arg(args, 'master-image-uri', master_image_uri)
+    if master_accelerator_count is not None and master_accelerator_count > 0:
+        _append_arg(args, 'master-accelerator', 'count=%d,type=%s' % (master_accelerator_count, master_accelerator_type.value))
+
+    _append_arg(args, 'parameter-server-machine-type', parameter_machine_type)
+    _append_arg(args, 'parameter-server-count', parameter_machine_count)
+    _append_arg(args, 'parameter-server-image-uri', parameter_image_uri)
+    if parameter_accelerator_count is not None and parameter_accelerator_count > 0:
+        _append_arg(args, 'parameter-server-accelerator', 'count=%d,type=%s' % (parameter_accelerator_count, parameter_accelerator_type.value))
+
+    _append_arg(args, 'worker-machine-type', worker_machine_type)
+    _append_arg(args, 'worker-count', worker_machine_count)
+    _append_arg(args, 'worker-image-uri', worker_image_uri)
+    if worker_accelerator_count is not None and worker_accelerator_count > 0:
+        _append_arg(args, 'worker-accelerator', 'count=%d,type=%s' % (worker_accelerator_count, worker_accelerator_type.value))
+
+    _append_arg(args, 'use-chief-in-tf-config', use_chief_in_tf_config)
     return args
 
 # Cell
@@ -92,8 +134,8 @@ def run_docker_image(
     worker_machine_type: ai_platform_constants.MachineType = None,
     worker_machine_count=None,
     worker_image_uri=None,
-    work_accelerator_type: ai_platform_constants.AcceleratorType = None,
-    work_accelerator_count=None,
+    worker_accelerator_type: ai_platform_constants.AcceleratorType = None,
+    worker_accelerator_count=None,
     use_chief_in_tf_config=True,
     distribution_strategy_type: ai_platform_constants.DistributionStrategyType = None,
     use_distribution_strategy_scope: bool = None,
@@ -133,8 +175,8 @@ def run_docker_image(
         worker_machine_type = worker_machine_type,
         worker_machine_count = worker_machine_count,
         worker_image_uri = worker_image_uri,
-        work_accelerator_type = work_accelerator_type,
-        work_accelerator_count = work_accelerator_count,
+        worker_accelerator_type = worker_accelerator_type,
+        worker_accelerator_count = worker_accelerator_count,
         use_chief_in_tf_config = use_chief_in_tf_config,
         distribution_strategy_type = distribution_strategy_type)
     args.extend(common_args)
@@ -187,8 +229,8 @@ def run_package(
     worker_machine_type: ai_platform_constants.MachineType = None,
     worker_machine_count=None,
     worker_image_uri=None,
-    work_accelerator_type: ai_platform_constants.AcceleratorType = None,
-    work_accelerator_count=None,
+    worker_accelerator_type: ai_platform_constants.AcceleratorType = None,
+    worker_accelerator_count=None,
     use_chief_in_tf_config=True,
     distribution_strategy_type: ai_platform_constants.DistributionStrategyType = None,
     use_distribution_strategy_scope: bool = None,
@@ -229,8 +271,8 @@ def run_package(
         worker_machine_type = worker_machine_type,
         worker_machine_count = worker_machine_count,
         worker_image_uri = worker_image_uri,
-        work_accelerator_type = work_accelerator_type,
-        work_accelerator_count = work_accelerator_count,
+        worker_accelerator_type = worker_accelerator_type,
+        worker_accelerator_count = worker_accelerator_count,
         use_chief_in_tf_config = use_chief_in_tf_config,
         distribution_strategy_type = distribution_strategy_type)
     args.extend(common_args)

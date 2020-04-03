@@ -5,12 +5,17 @@ __all__ = ['AcceleratorType', 'ScaleTier', 'MachineType', 'DistributionStrategyT
 # Cell
 from enum import Enum
 
+# https://cloud.google.com/sdk/gcloud/reference/ai-platform/jobs/submit/training#--master-accelerator
 class AcceleratorType(Enum):
     NVIDIA_TESLA_K80 = 'nvidia-tesla-k80'
     NVIDIA_TESLA_P100 = 'nvidia-tesla-p100'
     NVIDIA_TESLA_V100 = 'nvidia-tesla-v100'
     NVIDIA_TESLA_P4 = 'nvidia-tesla-p4'
     NVIDIA_TESLA_T4 = 'nvidia-tesla-t4'
+    TPU_V2 = 'tpu-v2'
+    TPU_V2_POD = 'tpu-v2-pod'
+    TPU_V3 = 'tpu-v3'
+    TPU_V3_POD = 'tpu-v3-pod'
 
 
 # Cell

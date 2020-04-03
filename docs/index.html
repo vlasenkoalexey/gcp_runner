@@ -19,11 +19,14 @@ description: "Allows running any Jupyter notebook function on Google Cloud Platf
 -->
 
 <div class="container" id="notebook-container">
-    {% raw %}
         
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Install">Install<a class="anchor-link" href="#Install"> </a></h2>
@@ -55,9 +58,15 @@ Note that cell has to be marked with export attribute:</p>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -78,6 +87,8 @@ Note that cell has to be marked with export attribute:</p>
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Running it in notebook as usual:</p>
@@ -85,6 +96,8 @@ Note that cell has to be marked with export attribute:</p>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -116,6 +129,8 @@ in main after sleep 4
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Updating-project">Updating project<a class="anchor-link" href="#Updating-project"> </a></h3><p>If you do any changes, call <code>gcp_runner.core.export_and_reload_all</code> to convert all notebooks to python, and reload all modules. Note that modules are reloaded in an order defined by notebook names to make sure that dependencies are processed correctly. If there are errors in one of the modules, you can ignore them by setting ignore_errors=True. Or just restart Kernel.</p>
@@ -123,6 +138,8 @@ in main after sleep 4
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -137,6 +154,8 @@ in main after sleep 4
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Testing-code-locally">Testing code locally<a class="anchor-link" href="#Testing-code-locally"> </a></h3><p>Test that code can be executed locally as a Python script:</p>
@@ -144,6 +163,8 @@ in main after sleep 4
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -178,6 +199,8 @@ in main after sleep 4
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Or you can test that code can be executed locally as a docker container.
@@ -186,6 +209,8 @@ In order to build your own Docker file, set <code>build_docker_file</code> argum
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -203,6 +228,8 @@ In order to build your own Docker file, set <code>build_docker_file</code> argum
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <pre>
@@ -221,12 +248,25 @@ in main after sleep 4
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>For simple use cases you might be able to use existing images.
+In order bo build your own, set <code>build_docker_file</code> parameter.</p>
+<p>In order to authenticate your project with gcr.io container registry, run following command once:</p>
+<div class="highlight"><pre><span></span>gcloud auth configure-docker
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Running-on-Google-Cloud-AI-Platform">Running on Google Cloud AI Platform<a class="anchor-link" href="#Running-on-Google-Cloud-AI-Platform"> </a></h3><p>TODO: describe google cloud sdk setup</p>
 <p>Running as a package on Google Cloud AI Platform:</p>
 
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -244,6 +284,8 @@ in main after sleep 4
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <pre>
@@ -294,6 +336,8 @@ state: SUCCEEDED
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -313,6 +357,8 @@ state: SUCCEEDED
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <pre>
@@ -347,6 +393,8 @@ TODO: example how to run distributed hyper parameter tuner</p>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -366,6 +414,8 @@ TODO: example how to run distributed hyper parameter tuner</p>
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <pre>
@@ -379,7 +429,6 @@ kubernetes-runner-train-docker-chief-0      in main after sleep 4
 </div>
 </div>
 </div>
-    {% endraw %}
 </div>
  
 

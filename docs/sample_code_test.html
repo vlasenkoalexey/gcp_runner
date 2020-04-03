@@ -19,14 +19,23 @@ description: "summary"
 -->
 
 <div class="container" id="notebook-container">
-    {% raw %}
         
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -47,6 +56,10 @@ description: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -60,6 +73,10 @@ description: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -73,6 +90,10 @@ description: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -88,6 +109,10 @@ description: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -101,6 +126,10 @@ description: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -114,6 +143,10 @@ description: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -150,6 +183,1147 @@ Converted sample_code_test.ipynb.
 
 </div>
     {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gcp_runner.core</span> <span class="k">import</span> <span class="n">export_and_reload_all</span>
+<span class="n">export_and_reload_all</span><span class="p">(</span><span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gcp_runner.ai_platform_runner</span>
+
+<span class="n">gcp_runner</span><span class="o">.</span><span class="n">ai_platform_runner</span><span class="o">.</span><span class="n">run_package</span><span class="p">(</span>
+     <span class="n">some_function_to_run_on_cloud</span><span class="p">,</span> 
+     <span class="s1">&#39;gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gcp_runner.kubernetes_runner</span>
+<span class="kn">from</span> <span class="nn">gcp_runner</span> <span class="k">import</span> <span class="n">ai_platform_constants</span>
+
+<span class="n">gcp_runner</span><span class="o">.</span><span class="n">kubernetes_runner</span><span class="o">.</span><span class="n">run_docker_image</span><span class="p">(</span>
+    <span class="n">some_function_to_run_on_cloud</span><span class="p">,</span>
+    <span class="s1">&#39;gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir&#39;</span><span class="p">,</span>
+    <span class="n">image_uri</span><span class="o">=</span><span class="s1">&#39;gcr.io/alekseyv-scalableai-dev/tf2-cpu.2-1&#39;</span><span class="p">,</span>
+    <span class="n">distribution_strategy_type</span><span class="o">=</span><span class="n">ai_platform_constants</span><span class="o">.</span><span class="n">DistributionStrategyType</span><span class="o">.</span><span class="n">MIRRORED_STRATEGY</span><span class="p">,</span>
+    <span class="n">use_distribution_strategy_scope</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">dry_run</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>To see job output in tensorboard, run following command:
+tensorboard --logdir=%s gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir
+Generating kubernetes YAML file:
+kind: Service
+apiVersion: v1
+metadata:
+  name: kubernetes-runner-train-docker-chief-0
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    job: kubernetes-runner-train-docker-chief-0
+  ports:
+  - port: 5000
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: kubernetes-runner-train-docker-chief-0
+  labels:
+    job: kubernetes-runner-train-docker-chief-0
+  annotations:
+    tf-version.cloud-tpus.google.com: &#34;2.1&#34;
+spec:
+  hostNetwork: true
+  dnsPolicy: ClusterFirstWithHostNet
+  restartPolicy: Never
+  containers:
+  - name: gcp-runner-image
+    image: gcr.io/alekseyv-scalableai-dev/tf2-cpu.2-1
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 3
+        memory: 12G
+        nvidia.com/gpu: 2
+
+    env:
+    - name: TF_CONFIG
+      value: &#34;{
+  \&#34;cluster\&#34;: {\&#34;chief\&#34;: [\&#34;kubernetes-runner-train-docker-chief-0:5000\&#34;]},
+  \&#34;task\&#34;: {
+    \&#34;type\&#34;:  \&#34;chief\&#34;,
+    \&#34;index\&#34;: 0
+  },
+  \&#34;environment\&#34;: \&#34;cloud\&#34;
+}&#34;
+    ports:
+    - containerPort: 5000
+    command:
+    - &#34;python&#34;
+    - &#34;-u&#34;
+    - &#34;-m&#34;
+    - &#34;gcp_runner.entry_point&#34;
+    - &#34;--module-name=gcp_runner.sample_code_test&#34;
+    - &#34;--function-name=some_function_to_run_on_cloud&#34;
+    - &#34;--job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir&#34;
+    - &#34;--distribution-strategy-type=tf.distribute.MirroredStrategy&#34;
+    - &#34;--use-distribution-strategy-scope&#34;
+---
+
+Deleting all resources on Kubernetes cluster:
+kubectl delete namespace kubernetes-runner-namespace
+namespace &#34;kubernetes-runner-namespace&#34; deleted
+Creating Kubernetes kubernetes-runner-namespace namespace:
+kubectl create namespace kubernetes-runner-namespace
+namespace/kubernetes-runner-namespace created
+Creating Kubernetes cluster:
+kubectl create -f /var/folders/0c/_9t2rb612zq01d325yh__5ph0069sb/T/tmprq5bw0ib --namespace=kubernetes-runner-namespace
+service/kubernetes-runner-train-docker-chief-0 created
+pod/kubernetes-runner-train-docker-chief-0 created
+See logs at:
+https://pantheon.corp.google.com/logs/viewer?minLogLevel=0&amp;expandAll=false&amp;advancedFilter=resource.type%3D%22container%22%0Aresource.labels.namespace_id%3D%22kubernetes-runner-namespace%22&amp;dateRangeStart=2020-04-01T23:32:11Z
+Polling Kubernetes logs:
+logs since 2020-04-01T23:32:11+00:00
+kubernetes-runner-train-docker-chief-0		in gcp_runner entry point
+kubernetes-runner-train-docker-chief-0		running entrypoint function: gcp_runner.sample_code_test.some_function_to_run_on_cloud
+kubernetes-runner-train-docker-chief-0		additional args: [&#39;--job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir&#39;, &#39;--distribution-strategy-type=tf.distribute.MirroredStrategy&#39;, &#39;--use-distribution-strategy-scope&#39;]
+kubernetes-runner-train-docker-chief-0		/root/gcp_runner/entry_point.py:30: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+kubernetes-runner-train-docker-chief-0		  args_spec = inspect.getargspec(func)
+kubernetes-runner-train-docker-chief-0		running sample_code_test.some_function_to_run_on_cloud
+kubernetes-runner-train-docker-chief-0		in main before sleep 1
+kubernetes-runner-train-docker-chief-0		in main after sleep 2
+kubernetes-runner-train-docker-chief-0		in main after sleep 3
+kubernetes-runner-train-docker-chief-0		in main after sleep 4
+logs since 2020-04-01T23:33:12+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:33:12+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:33:12+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:33:12+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:33:12+00:00
+kubernetes-runner-train-docker-chief-0		in gcp_runner entry point
+kubernetes-runner-train-docker-chief-0		running entrypoint function: criteo_nbdev.trainer.train_and_evaluate_keras_model_small
+kubernetes-runner-train-docker-chief-0		2020-04-01 23:36:43.936664: I tensorflow_io/core/kernels/cpu_check.cc:127] Your CPU supports instructions that this TensorFlow IO binary was not compiled to use: AVX2 FMA
+kubernetes-runner-train-docker-chief-0		additional args: [&#39;--job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir/model_mirrored_strategy_3&#39;]
+kubernetes-runner-train-docker-chief-0		/root/gcp_runner/gcp_runner/entry_point.py:79: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+kubernetes-runner-train-docker-chief-0		  args_spec = inspect.getargspec(func)
+kubernetes-runner-train-docker-chief-0		ArgSpec(args=[&#39;distribution_strategy&#39;, &#39;job_dir&#39;], varargs=None, keywords=&#39;kwargs&#39;, defaults=(None, None))
+kubernetes-runner-train-docker-chief-0		Traceback (most recent call last):
+  File &#34;/opt/conda/lib/python3.7/runpy.py&#34;, line 193, in _run_module_as_main
+    &#34;__main__&#34;, mod_spec)
+  File &#34;/opt/conda/lib/python3.7/runpy.py&#34;, line 85, in _run_code
+    exec(code, run_globals)
+  File &#34;/root/gcp_runner/gcp_runner/entry_point.py&#34;, line 101, in &lt;module&gt;
+    main()
+  File &#34;/root/gcp_runner/gcp_runner/entry_point.py&#34;, line 88, in main
+    distribution_strategy_type = DistributionStrategyType(args.distribution_strategy)
+AttributeError: &#39;Namespace&#39; object has no attribute &#39;distribution_strategy&#39;
+kubernetes-runner-train-docker-chief-0	Error detected in gke_instances	
+logs since 2020-04-01T23:38:19+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:38:19+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:38:19+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:38:19+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:38:19+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:38:19+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:38:19+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:38:19+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:38:19+00:00
+kubernetes-runner-train-docker-chief-0		in gcp_runner entry point
+kubernetes-runner-train-docker-chief-0		running entrypoint function: criteo_nbdev.trainer.train_and_evaluate_keras_model_small
+kubernetes-runner-train-docker-chief-0		2020-04-01 23:45:43.027940: I tensorflow_io/core/kernels/cpu_check.cc:127] Your CPU supports instructions that this TensorFlow IO binary was not compiled to use: AVX2 FMA
+kubernetes-runner-train-docker-chief-0		additional args: [&#39;--job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir/model_mirrored_strategy_3&#39;]
+kubernetes-runner-train-docker-chief-0		/root/gcp_runner/gcp_runner/entry_point.py:79: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+kubernetes-runner-train-docker-chief-0		  args_spec = inspect.getargspec(func)
+kubernetes-runner-train-docker-chief-0		ArgSpec(args=[&#39;distribution_strategy&#39;, &#39;job_dir&#39;], varargs=None, keywords=&#39;kwargs&#39;, defaults=(None, None))
+kubernetes-runner-train-docker-chief-0		Traceback (most recent call last):
+  File &#34;/opt/conda/lib/python3.7/runpy.py&#34;, line 193, in _run_module_as_main
+    &#34;__main__&#34;, mod_spec)
+  File &#34;/opt/conda/lib/python3.7/runpy.py&#34;, line 85, in _run_code
+    exec(code, run_globals)
+  File &#34;/root/gcp_runner/gcp_runner/entry_point.py&#34;, line 101, in &lt;module&gt;
+    main()
+  File &#34;/root/gcp_runner/gcp_runner/entry_point.py&#34;, line 88, in main
+    distribution_strategy_type = DistributionStrategyType(args.distribution_strategy)
+AttributeError: &#39;Namespace&#39; object has no attribute &#39;distribution_strategy&#39;
+logs since 2020-04-01T23:47:34+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:47:34+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:47:34+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:47:34+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:47:34+00:00
+kubernetes-runner-train-docker-chief-0		in gcp_runner entry point
+kubernetes-runner-train-docker-chief-0		running entrypoint function: criteo_nbdev.trainer.train_and_evaluate_keras_model_small
+kubernetes-runner-train-docker-chief-0		2020-04-01 23:52:01.264348: I tensorflow_io/core/kernels/cpu_check.cc:127] Your CPU supports instructions that this TensorFlow IO binary was not compiled to use: AVX2 FMA
+kubernetes-runner-train-docker-chief-0		additional args: [&#39;--job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir/model_mirrored_strategy_3&#39;]
+kubernetes-runner-train-docker-chief-0		ArgSpec(args=[&#39;distribution_strategy&#39;, &#39;job_dir&#39;], varargs=None, keywords=&#39;kwargs&#39;, defaults=(None, None))
+kubernetes-runner-train-docker-chief-0		/root/gcp_runner/gcp_runner/entry_point.py:79: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+kubernetes-runner-train-docker-chief-0		  args_spec = inspect.getargspec(func)
+kubernetes-runner-train-docker-chief-0		2020-04-01 23:52:01.752317: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2300000000 Hz
+kubernetes-runner-train-docker-chief-0		2020-04-01 23:52:01.752914: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5628ab0053b0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+kubernetes-runner-train-docker-chief-0		2020-04-01 23:52:01.752956: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:There are non-GPU devices in `tf.distribute.Strategy`, not using nccl allreduce.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:There are non-GPU devices in `tf.distribute.Strategy`, not using nccl allreduce.
+kubernetes-runner-train-docker-chief-0		running code in %s scope tf.distribute.MirroredStrategy
+kubernetes-runner-train-docker-chief-0		distribution_strategy:
+kubernetes-runner-train-docker-chief-0		&lt;tensorflow.python.distribute.mirrored_strategy.MirroredStrategy object at 0x7fc936ce9890&gt;
+kubernetes-runner-train-docker-chief-0		job_dir:
+kubernetes-runner-train-docker-chief-0		gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir/model_mirrored_strategy_3
+kubernetes-runner-train-docker-chief-0		kwargs:
+kubernetes-runner-train-docker-chief-0		{&#39;distribution_strategy_type&#39;: &lt;DistributionStrategyType.MIRRORED_STRATEGY: &#39;tf.distribute.MirroredStrategy&#39;&gt;}
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:From /opt/conda/lib/python3.7/site-packages/tensorflow_core/python/feature_column/feature_column_v2.py:4267: IndicatorColumn._variable_shape (from tensorflow.python.feature_column.feature_column_v2) is deprecated and will be removed in a future version.
+kubernetes-runner-train-docker-chief-0		Instructions for updating:
+kubernetes-runner-train-docker-chief-0		The old _FeatureColumn APIs are being deprecated. Please use the new FeatureColumn APIs instead.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:From /opt/conda/lib/python3.7/site-packages/tensorflow_core/python/feature_column/feature_column_v2.py:4267: IndicatorColumn._variable_shape (from tensorflow.python.feature_column.feature_column_v2) is deprecated and will be removed in a future version.
+kubernetes-runner-train-docker-chief-0		Instructions for updating:
+kubernetes-runner-train-docker-chief-0		The old _FeatureColumn APIs are being deprecated. Please use the new FeatureColumn APIs instead.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:From /opt/conda/lib/python3.7/site-packages/tensorflow_core/python/feature_column/feature_column_v2.py:4322: HashedCategoricalColumn._num_buckets (from tensorflow.python.feature_column.feature_column_v2) is deprecated and will be removed in a future version.
+kubernetes-runner-train-docker-chief-0		Instructions for updating:
+kubernetes-runner-train-docker-chief-0		The old _FeatureColumn APIs are being deprecated. Please use the new FeatureColumn APIs instead.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:From /opt/conda/lib/python3.7/site-packages/tensorflow_core/python/feature_column/feature_column_v2.py:4322: HashedCategoricalColumn._num_buckets (from tensorflow.python.feature_column.feature_column_v2) is deprecated and will be removed in a future version.
+kubernetes-runner-train-docker-chief-0		Instructions for updating:
+kubernetes-runner-train-docker-chief-0		The old _FeatureColumn APIs are being deprecated. Please use the new FeatureColumn APIs instead.
+kubernetes-runner-train-docker-chief-0		Train for 8789 steps, validate for 976 steps
+kubernetes-runner-train-docker-chief-0		Epoch 1/2
+kubernetes-runner-train-docker-chief-0		2020-04-01 23:52:25.479759: I tensorflow/core/profiler/lib/profiler_session.cc:225] Profiler session started.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:Method (on_train_batch_end) is slow compared to the batch update (0.647987). Check your callbacks.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:Method (on_train_batch_end) is slow compared to the batch update (0.647987). Check your callbacks.
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-01T23:52:42+00:00
+kubernetes-runner-train-docker-chief-0		
+kubernetes-runner-train-docker-chief-0		Epoch 00001: saving model to gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir/model_mirrored_strategy_3/checkpoints/epochs:001-accuracy:0.757.hdf5
+kubernetes-runner-train-docker-chief-0		8789/8789 - 801s - loss: 0.5118 - accuracy: 0.7573 - val_loss: 0.5130 - val_accuracy: 0.7641
+kubernetes-runner-train-docker-chief-0		Epoch 2/2
+logs since 2020-04-02T00:06:04+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:06:04+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:06:04+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:06:04+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+17s         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:06:04+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+80s         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:06:04+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+2m22s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:06:04+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+3m25s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:06:04+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+4m27s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:06:04+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+5m28s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:06:04+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+6m30s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:06:04+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+7m31s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:06:04+00:00
+kubernetes-runner-train-docker-chief-0		2020-04-02 00:17:37.582232: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+logs since 2020-04-02T00:18:25+00:00
+kubernetes-runner-train-docker-chief-0		
+kubernetes-runner-train-docker-chief-0		Epoch 00002: saving model to gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir/model_mirrored_strategy_3/checkpoints/epochs:002-accuracy:0.763.hdf5
+kubernetes-runner-train-docker-chief-0		8789/8789 - 781s - loss: 0.5017 - accuracy: 0.7632 - val_loss: 0.5045 - val_accuracy: 0.7677
+kubernetes-runner-train-docker-chief-0		2020-04-02 00:18:38.064137: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+kubernetes-runner-train-docker-chief-0		2020-04-02 00:18:38.385227: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+logs since 2020-04-02T00:19:27+00:00
+kubernetes-runner-train-docker-chief-0		976/976 - 57s - loss: 0.5042 - accuracy: 0.7679
+kubernetes-runner-train-docker-chief-0		2020-04-02 00:19:39.702756: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+kubernetes-runner-train-docker-chief-0		Model: &#34;sequential&#34;
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		Layer (type)                 Output Shape              Param #   
+kubernetes-runner-train-docker-chief-0		=================================================================
+kubernetes-runner-train-docker-chief-0		feature_layer (DenseFeatures multiple                  669098    
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		dropout (Dropout)            multiple                  0         
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		dense (Dense)                multiple                  541190    
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		dense_1 (Dense)              multiple                  358202    
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		dense_2 (Dense)              multiple                  358202    
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		dense_3 (Dense)              multiple                  599       
+kubernetes-runner-train-docker-chief-0		=================================================================
+kubernetes-runner-train-docker-chief-0		Total params: 1,927,291
+kubernetes-runner-train-docker-chief-0		Trainable params: 1,927,291
+kubernetes-runner-train-docker-chief-0		Non-trainable params: 0
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+11m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+12m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+13m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+14m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+15m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+16m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+17m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+18m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+19m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+20m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+21m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+22m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+23m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+24m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+25m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+27m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+28m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+29m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+30m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+31m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+32m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+33m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+34m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+35m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+36m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+37m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+38m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+39m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+40m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+41m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+42m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+43m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+44m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+45m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+46m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+47m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+48m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+49m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+50m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+51m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+52m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+53m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+54m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+55m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+56m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+57m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+58m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+59m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
+60m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-dtjp   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T00:20:28+00:00
+kubernetes-runner-train-docker-chief-0		in gcp_runner entry point
+kubernetes-runner-train-docker-chief-0		running entrypoint function: criteo_nbdev.trainer.train_and_evaluate_keras_model_small
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:03.601224: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:05.229800: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libnvinfer.so.6
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:05.761741: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libnvinfer_plugin.so.6
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:06.546114: I tensorflow_io/core/kernels/cpu_check.cc:127] Your CPU supports instructions that this TensorFlow IO binary was not compiled to use: AVX2 FMA
+kubernetes-runner-train-docker-chief-0		additional args: [&#39;--job-dir=gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir/model_mirrored_strategy_alekseyv_20200401_184228&#39;]
+kubernetes-runner-train-docker-chief-0		/root/gcp_runner/gcp_runner/entry_point.py:79: DeprecationWarning: inspect.getargspec() is deprecated since Python 3.0, use inspect.signature() or inspect.getfullargspec()
+kubernetes-runner-train-docker-chief-0		  args_spec = inspect.getargspec(func)
+kubernetes-runner-train-docker-chief-0		ArgSpec(args=[&#39;distribution_strategy&#39;, &#39;job_dir&#39;], varargs=None, keywords=&#39;kwargs&#39;, defaults=(None, None))
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:07.264067: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcuda.so.1
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:07.531275: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:07.532374: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1555] Found device 0 with properties: 
+kubernetes-runner-train-docker-chief-0		pciBusID: 0000:00:04.0 name: Tesla K80 computeCapability: 3.7
+kubernetes-runner-train-docker-chief-0		coreClock: 0.8235GHz coreCount: 13 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 223.96GiB/s
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:07.532653: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:07.533644: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1555] Found device 1 with properties: 
+kubernetes-runner-train-docker-chief-0		pciBusID: 0000:00:05.0 name: Tesla K80 computeCapability: 3.7
+kubernetes-runner-train-docker-chief-0		coreClock: 0.8235GHz coreCount: 13 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 223.96GiB/s
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:07.533741: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:07.533849: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:07.735606: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:07.874661: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.494455: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.634299: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.634592: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.634878: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.636008: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.637094: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.638245: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.639194: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1697] Adding visible gpu devices: 0, 1
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.647752: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2300000000 Hz
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.648218: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x557508c47e50 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.648264: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.914778: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.916836: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.918113: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x557509448d30 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.918151: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Tesla K80, Compute Capability 3.7
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.918162: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (1): Tesla K80, Compute Capability 3.7
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.919029: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.919966: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1555] Found device 0 with properties: 
+kubernetes-runner-train-docker-chief-0		pciBusID: 0000:00:04.0 name: Tesla K80 computeCapability: 3.7
+kubernetes-runner-train-docker-chief-0		coreClock: 0.8235GHz coreCount: 13 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 223.96GiB/s
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.920170: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.921097: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1555] Found device 1 with properties: 
+kubernetes-runner-train-docker-chief-0		pciBusID: 0000:00:05.0 name: Tesla K80 computeCapability: 3.7
+kubernetes-runner-train-docker-chief-0		coreClock: 0.8235GHz coreCount: 13 deviceMemorySize: 11.17GiB deviceMemoryBandwidth: 223.96GiB/s
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.921204: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.921247: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.921326: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.921382: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.921464: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.921518: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.921563: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.921740: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.922788: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.923824: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.924830: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.925708: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1697] Adding visible gpu devices: 0, 1
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:08.925818: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:10.445594: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1096] Device interconnect StreamExecutor with strength 1 edge matrix:
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:10.445664: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1102]      0 1 
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:10.445681: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] 0:   N N 
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:10.445690: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] 1:   N N 
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:10.446154: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:10.447225: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:10.448256: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:10.449199: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1241] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10714 MB memory) -&gt; physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:04.0, compute capability: 3.7)
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:10.450025: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:10.450975: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1241] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 10714 MB memory) -&gt; physical GPU (device: 1, name: Tesla K80, pci bus id: 0000:00:05.0, compute capability: 3.7)
+kubernetes-runner-train-docker-chief-0		running code in %s scope tf.distribute.MirroredStrategy
+kubernetes-runner-train-docker-chief-0		distribution_strategy:
+kubernetes-runner-train-docker-chief-0		&lt;tensorflow.python.distribute.mirrored_strategy.MirroredStrategy object at 0x7f18a7330090&gt;
+kubernetes-runner-train-docker-chief-0		job_dir:
+kubernetes-runner-train-docker-chief-0		gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir/model_mirrored_strategy_alekseyv_20200401_184228
+kubernetes-runner-train-docker-chief-0		kwargs:
+kubernetes-runner-train-docker-chief-0		{&#39;distribution_strategy_type&#39;: &lt;DistributionStrategyType.MIRRORED_STRATEGY: &#39;tf.distribute.MirroredStrategy&#39;&gt;}
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:From /opt/conda/lib/python3.7/site-packages/tensorflow_core/python/feature_column/feature_column_v2.py:4267: IndicatorColumn._variable_shape (from tensorflow.python.feature_column.feature_column_v2) is deprecated and will be removed in a future version.
+kubernetes-runner-train-docker-chief-0		Instructions for updating:
+kubernetes-runner-train-docker-chief-0		The old _FeatureColumn APIs are being deprecated. Please use the new FeatureColumn APIs instead.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:From /opt/conda/lib/python3.7/site-packages/tensorflow_core/python/feature_column/feature_column_v2.py:4267: IndicatorColumn._variable_shape (from tensorflow.python.feature_column.feature_column_v2) is deprecated and will be removed in a future version.
+kubernetes-runner-train-docker-chief-0		Instructions for updating:
+kubernetes-runner-train-docker-chief-0		The old _FeatureColumn APIs are being deprecated. Please use the new FeatureColumn APIs instead.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:From /opt/conda/lib/python3.7/site-packages/tensorflow_core/python/feature_column/feature_column_v2.py:4322: HashedCategoricalColumn._num_buckets (from tensorflow.python.feature_column.feature_column_v2) is deprecated and will be removed in a future version.
+kubernetes-runner-train-docker-chief-0		Instructions for updating:
+kubernetes-runner-train-docker-chief-0		The old _FeatureColumn APIs are being deprecated. Please use the new FeatureColumn APIs instead.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:From /opt/conda/lib/python3.7/site-packages/tensorflow_core/python/feature_column/feature_column_v2.py:4322: HashedCategoricalColumn._num_buckets (from tensorflow.python.feature_column.feature_column_v2) is deprecated and will be removed in a future version.
+kubernetes-runner-train-docker-chief-0		Instructions for updating:
+kubernetes-runner-train-docker-chief-0		The old _FeatureColumn APIs are being deprecated. Please use the new FeatureColumn APIs instead.
+kubernetes-runner-train-docker-chief-0		Train for 8789 steps, validate for 976 steps
+kubernetes-runner-train-docker-chief-0		Epoch 1/2
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:Efficient allreduce is not supported for 24 IndexedSlices
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:Efficient allreduce is not supported for 24 IndexedSlices
+logs since 2020-04-02T01:46:46+00:00
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:50.258722: I tensorflow/core/profiler/lib/profiler_session.cc:225] Profiler session started.
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:50.259180: I tensorflow/core/profiler/internal/gpu/cupti_tracer.cc:1259] Profiler found 2 GPUs
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:50.259874: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library &#39;libcupti.so.10.1&#39;; dlerror: libcupti.so.10.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:50.260194: E tensorflow/core/profiler/internal/gpu/cupti_tracer.cc:1307] function cupti_interface_-&gt;Subscribe( &amp;subscriber_, (CUpti_CallbackFunc)ApiCallback, this)failed with error CUPTI could not be loaded or symbol could not be found.
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:50.260436: E tensorflow/core/profiler/internal/gpu/cupti_tracer.cc:1346] function cupti_interface_-&gt;ActivityRegisterCallbacks( AllocCuptiActivityBuffer, FreeCuptiActivityBuffer)failed with error CUPTI could not be loaded or symbol could not be found.
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:50.380375: E tensorflow/core/profiler/internal/gpu/cupti_tracer.cc:1329] function cupti_interface_-&gt;EnableCallback( 0 , subscriber_, CUPTI_CB_DOMAIN_DRIVER_API, cbid)failed with error CUPTI could not be loaded or symbol could not be found.
+kubernetes-runner-train-docker-chief-0		2020-04-02 01:46:50.380486: I tensorflow/core/profiler/internal/gpu/device_tracer.cc:88]  GpuTracer has collected 0 callback api events and 0 activity events.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:Method (on_train_batch_end) is slow compared to the batch update (1.205124). Check your callbacks.
+kubernetes-runner-train-docker-chief-0		WARNING:tensorflow:Method (on_train_batch_end) is slow compared to the batch update (1.205124). Check your callbacks.
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T01:47:47+00:00
+kubernetes-runner-train-docker-chief-0		
+kubernetes-runner-train-docker-chief-0		Epoch 00001: saving model to gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir/model_mirrored_strategy_alekseyv_20200401_184228/checkpoints/epochs:001-accuracy:0.757.hdf5
+kubernetes-runner-train-docker-chief-0		8789/8789 - 1031s - loss: 0.5128 - accuracy: 0.7570 - val_loss: 0.5078 - val_accuracy: 0.7649
+kubernetes-runner-train-docker-chief-0		Epoch 2/2
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:04:13+00:00
+kubernetes-runner-train-docker-chief-0		2020-04-02 02:18:07.526473: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+kubernetes-runner-train-docker-chief-0		2020-04-02 02:18:07.536351: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+logs since 2020-04-02T02:18:37+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:18:37+00:00
+kubernetes-runner-train-docker-chief-0		
+kubernetes-runner-train-docker-chief-0		Epoch 00002: saving model to gs://alekseyv-scalableai-dev-criteo-model-bucket/test-job-dir/model_mirrored_strategy_alekseyv_20200401_184228/checkpoints/epochs:002-accuracy:0.763.hdf5
+kubernetes-runner-train-docker-chief-0		8789/8789 - 959s - loss: 0.5026 - accuracy: 0.7630 - val_loss: 0.5045 - val_accuracy: 0.7682
+kubernetes-runner-train-docker-chief-0		2020-04-02 02:19:39.186295: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+kubernetes-runner-train-docker-chief-0		2020-04-02 02:19:39.188066: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+kubernetes-runner-train-docker-chief-0		2020-04-02 02:19:39.446069: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+kubernetes-runner-train-docker-chief-0		2020-04-02 02:19:39.450419: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+logs since 2020-04-02T02:20:39+00:00
+kubernetes-runner-train-docker-chief-0		976/976 - 85s - loss: 0.5044 - accuracy: 0.7682
+kubernetes-runner-train-docker-chief-0		2020-04-02 02:21:09.375561: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+kubernetes-runner-train-docker-chief-0		2020-04-02 02:21:09.379263: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Cancelled: Operation was cancelled
+kubernetes-runner-train-docker-chief-0		Model: &#34;sequential&#34;
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		Layer (type)                 Output Shape              Param #   
+kubernetes-runner-train-docker-chief-0		=================================================================
+kubernetes-runner-train-docker-chief-0		feature_layer (DenseFeatures multiple                  669098    
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		dropout (Dropout)            multiple                  0         
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		dense (Dense)                multiple                  541190    
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		dense_1 (Dense)              multiple                  358202    
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		dense_2 (Dense)              multiple                  358202    
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+kubernetes-runner-train-docker-chief-0		dense_3 (Dense)              multiple                  599       
+kubernetes-runner-train-docker-chief-0		=================================================================
+kubernetes-runner-train-docker-chief-0		Total params: 1,927,291
+kubernetes-runner-train-docker-chief-0		Trainable params: 1,927,291
+kubernetes-runner-train-docker-chief-0		Non-trainable params: 0
+kubernetes-runner-train-docker-chief-0		_________________________________________________________________
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+52s         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+30s         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+114s        Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+92s         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+2m55s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+2m33s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+3m57s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+3m35s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+4m58s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+4m36s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+6m          Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+5m38s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+7m2s        Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+6m40s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+8m3s        Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+7m41s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+9m5s        Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+8m43s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+10m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+9m44s       Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+11m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+10m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+12m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+11m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+13m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+12m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+14m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+13m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+15m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+14m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+16m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+15m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+17m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+16m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+18m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+17m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+19m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+18m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+20m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+20m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+21m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+21m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+22m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+22m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+23m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+23m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+24m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+24m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+25m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+25m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+26m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+26m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+27m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+27m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+28m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+28m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+29m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+29m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+30m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+30m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+31m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+31m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+32m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+32m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+33m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+33m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+34m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+34m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+35m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+35m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+36m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+36m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+37m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+37m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+38m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+38m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+39m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+39m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+40m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+40m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+41m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+41m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+42m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+42m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+43m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+43m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+45m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+44m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+46m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+45m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+47m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+46m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+48m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+47m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+49m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+48m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+50m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+49m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+51m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+50m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+52m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+51m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+53m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+52m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+54m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+53m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+55m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+54m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+56m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+55m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+57m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+56m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+58m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+58m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+59m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+59m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+60m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-jc64   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+60m         Warning   NodeSysctlChange   node/gke-criteo-cluster-tpu-default-pool-e0bb0d92-1nsw   {&#34;unmanaged&#34;: {&#34;kernel.tainted&#34;: &#34;12289&#34;}}
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+<span class="ansi-red-fg">No resources found.</span>
+logs since 2020-04-02T02:21:41+00:00
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 </div>
  
 
