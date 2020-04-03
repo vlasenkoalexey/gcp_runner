@@ -1324,6 +1324,129 @@ logs since 2020-04-02T02:21:41+00:00
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbdev.export2html</span>
+
+<span class="o">?</span>nbdev.export2html.notebook2html
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre><span class="ansi-red-fg">Signature:</span>
+nbdev<span class="ansi-blue-fg">.</span>export2html<span class="ansi-blue-fg">.</span>notebook2html<span class="ansi-blue-fg">(</span>
+    fname<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    force_all<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    n_workers<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    cls<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&lt;</span><span class="ansi-green-fg">class</span> <span class="ansi-blue-fg">&#39;nbconvert.exporters.html.HTMLExporter&#39;</span><span class="ansi-blue-fg">&gt;</span><span class="ansi-blue-fg">,</span>
+    template_file<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    exporter<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    dest<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span> Convert all notebooks matching `fname` to html files
+<span class="ansi-red-fg">File:</span>      ~/vlasenkoalexey/nbdev/nbdev/export2html.py
+<span class="ansi-red-fg">Type:</span>      function
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbdev</span><span class="o">.</span><span class="n">export2html</span><span class="o">.</span><span class="n">notebook2html</span><span class="p">(</span><span class="s1">&#39;entry_point.ipynb&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>converting: entry_point.ipynb
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">tb</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">Exception</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-3-aa94c963025b&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>nbdev<span class="ansi-blue-fg">.</span>export2html<span class="ansi-blue-fg">.</span>notebook2html<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;entry_point.ipynb&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/vlasenkoalexey/nbdev/nbdev/export2html.py</span> in <span class="ansi-cyan-fg">notebook2html</span><span class="ansi-blue-fg">(fname, force_all, n_workers, cls, template_file, exporter, dest)</span>
+<span class="ansi-green-intense-fg ansi-bold">    478</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> all<span class="ansi-blue-fg">(</span>passed<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    479</span>             msg <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#34;Conversion failed on the following:\n&#34;</span>
+<span class="ansi-green-fg">--&gt; 480</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">raise</span> Exception<span class="ansi-blue-fg">(</span>msg <span class="ansi-blue-fg">+</span> <span class="ansi-blue-fg">&#39;\n&#39;</span><span class="ansi-blue-fg">.</span>join<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">[</span>f<span class="ansi-blue-fg">.</span>name <span class="ansi-green-fg">for</span> p<span class="ansi-blue-fg">,</span>f <span class="ansi-green-fg">in</span> zip<span class="ansi-blue-fg">(</span>passed<span class="ansi-blue-fg">,</span>files<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> p<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    481</span> 
+<span class="ansi-green-intense-fg ansi-bold">    482</span> <span class="ansi-red-fg"># Cell</span>
+
+<span class="ansi-red-fg">Exception</span>: Conversion failed on the following:
+entry_point.ipynb</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 </div>
  
 

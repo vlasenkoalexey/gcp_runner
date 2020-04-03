@@ -3,6 +3,7 @@
 __all__ = ['get_distribution_strategy_instance', 'parse_unknown_args', 'main']
 
 # Cell
+
 import os
 import argparse
 import time
@@ -46,6 +47,10 @@ def parse_unknown_args(unknown_args):
         else:
             print("can't parse argument: %s" % arg)
     return kwargs
+
+
+
+# Cell
 
 def main():
     print('in gcp_runner entry point')

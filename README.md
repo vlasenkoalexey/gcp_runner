@@ -92,6 +92,15 @@ in main after sleep 3
 in main after sleep 4 
 </pre>
 
+For simple use cases you might be able to use existing images.
+In order bo build your own, set `build_docker_file` parameter.
+
+In order to authenticate your project with gcr.io container registry, run following command once:
+
+```sh
+gcloud auth configure-docker
+```
+
 ### Running on Google Cloud AI Platform
 
 TODO: describe google cloud sdk setup
