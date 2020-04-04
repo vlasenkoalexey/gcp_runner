@@ -199,4 +199,4 @@ format_job_dir('model_{datetime}_{username}')
 
 def print_tensorboard_command(job_dir):
     print('To see job output in tensorboard, run following command:')
-    print('tensorboard --logdir=%s', job_dir)
+    print('tensorboard --logdir=%s' % job_dir)
