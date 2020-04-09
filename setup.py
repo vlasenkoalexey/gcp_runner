@@ -42,5 +42,8 @@ setuptools.setup(
     long_description_content_type = 'text/markdown',
     zip_safe = False,
     entry_points = { 'console_scripts': cfg.get('console_scripts','').split() },
+    dependency_links = [
+        'github+https://github.com/vlasenkoalexey/gcp_runner' # TODO: move to requirements once released to PyPI
+    ]
     **setup_cfg)
 
