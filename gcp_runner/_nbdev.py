@@ -3,6 +3,7 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"get_notebook_path": "00_core.ipynb",
+         "read_colab_nb": "00_core.ipynb",
          "find_default_export_for_notebook": "00_core.ipynb",
          "get_module_name": "00_core.ipynb",
          "get_package_name": "00_core.ipynb",
