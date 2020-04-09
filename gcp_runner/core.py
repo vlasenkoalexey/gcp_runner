@@ -59,7 +59,7 @@ if nbdev.imports.in_colab():
     from oauth2client.client import GoogleCredentials
 
 def read_colab_nb(notebook_path):
-    gdrive_file_id = re.search('/fileId=(.+)', string)[1]
+    gdrive_file_id = re.search('/fileId=(.+)', notebook_path)[1]
     # Authenticate and create the PyDrive client.
     auth.authenticate_user()
     gauth = GoogleAuth()
