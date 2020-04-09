@@ -252,8 +252,10 @@ def run_package(
         "--runtime-version=%s" % runtime_version,
         "--python-version=%s" % python_version,
         "--stream-logs",
-        "--module-name=%s.entry_point" % package_name,
+        "--module-name=gcp_runner.entry_point",
         "--package-path=%s/%s" % (os.getcwd(), package_name)]
+
+#        "--module-name=%s.entry_point" % package_name,
 
     common_args = _get_common_args(
         job_dir,
@@ -283,6 +285,8 @@ def run_package(
         "--module-name=%s.%s" % (package_name, module_name),
         "--function-name=%s" % function_name]
     args.extend(package_args)
+
+    #TODO: use get_run_python function here
 
     if distribution_strategy_type:
         args.append("--distribution-strategy-type=%s" % distribution_strategy_type)
