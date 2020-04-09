@@ -19,15 +19,14 @@ index = {"get_notebook_path": "00_core.ipynb",
          "MachineType": "ai_platform_constants.ipynb",
          "DistributionStrategyType": "ai_platform_constants.ipynb",
          "run_docker_image": "kubernetes_runner.ipynb",
-         "run_package": "ai_platform_runner.ipynb",
+         "run_package": "local_runner.ipynb",
          "get_distribution_strategy_instance": "entry_point.ipynb",
          "parse_unknown_args": "entry_point.ipynb",
          "setup_keras_tuner_config": "entry_point.ipynb",
          "main": "entry_point.ipynb",
          "some_function_to_run_on_cloud": "sample_code_test.ipynb",
          "run_python": "local_runner.ipynb",
-         "run_docker": "local_runner.ipynb",
-         "run_on_ai_platform": "local_runner.ipynb"}
+         "run_docker": "local_runner.ipynb"}
 
 modules = ["core.py",
            "ai_platform_constants.py",
