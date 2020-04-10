@@ -80,9 +80,11 @@ def setup_keras_tuner_config():
             print('Error setting up keras tuner config: %s' % str(ex))
 
 # Cell
+import sys
 
 def main():
-    print('in gcp_runner entry point')
+    print('in gcp_runner entry point:')
+    print(sys.argv)
     args_parser = argparse.ArgumentParser()
     args_parser.add_argument(
         '--module-name',

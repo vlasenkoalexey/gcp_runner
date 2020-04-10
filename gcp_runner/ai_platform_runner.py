@@ -110,6 +110,15 @@ def _get_common_args(
     return args
 
 # Cell
+def _get_ai_platform_run_args(func, job_dir, distribution_strategy_type, use_distribution_strategy_scope):
+    args.append("--job-dir=%s" % job_dir)
+    if distribution_strategy_type:
+        args.append("--distribution-strategy-type=%s" % distribution_strategy_type)
+        if use_distribution_strategy_scope:
+            args.append("--use-distribution-strategy-scope")
+
+
+# Cell
 import datetime
 from .core import build_and_push_docker_image, run_process, get_run_python_args, format_job_dir, print_tensorboard_command
 from gcp_runner import ai_platform_constants
@@ -185,13 +194,8 @@ def run_docker_image(
 
     args.append('--')
 
-    run_python_args = get_run_python_args(func, **kwargs)
-    args.extend(run_python_args)
-    args.append("--job-dir=%s" % job_dir)
-    if distribution_strategy_type:
-        args.append("--distribution-strategy-type=%s" % distribution_strategy_type)
-        if use_distribution_strategy_scope:
-            args.append("--use-distribution-strategy-scope")
+    args.extend(get_run_python_args(func, **kwargs))
+    args.extend(_get_ai_platform_run_args(job_dir, distribution_strategy_type, use_distribution_strategy_scope))
 
     print('running training job using Docker image Google Cloud Platform AI:')
     print(' '.join(args).replace(' --', '\n --').replace('\n', ' \\ \n'))
@@ -200,9 +204,10 @@ def run_docker_image(
 
 
 # Cell
+
 import os
 import datetime
-from .core import get_run_python_args, run_process, get_package_name, get_module_name, format_job_dir, print_tensorboard_command
+from .core import get_run_args, run_process, get_package_name, get_module_name, format_job_dir, print_tensorboard_command
 from gcp_runner import ai_platform_constants
 
 #IMPORTANT: we'll need to either copy entry_point.py to package,
@@ -278,15 +283,9 @@ def run_package(
         use_chief_in_tf_config = use_chief_in_tf_config,
         distribution_strategy_type = distribution_strategy_type)
     args.extend(common_args)
-
-    package_args = [
-        "--",
-        "--job-dir=%s" % job_dir,
-        "--module-name=%s.%s" % (package_name, module_name),
-        "--function-name=%s" % function_name]
-    args.extend(package_args)
-
-    #TODO: use get_run_python function here
+    args.append("--")
+    args.extend(get_run_args(func, **kwargs))
+    args.extend(_get_ai_platform_run_args(job_dir, distribution_strategy_type, use_distribution_strategy_scope))
 
     if distribution_strategy_type:
         args.append("--distribution-strategy-type=%s" % distribution_strategy_type)
