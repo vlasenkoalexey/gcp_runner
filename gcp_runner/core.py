@@ -175,8 +175,7 @@ def get_run_args(func, **kwargs):
     package_name = get_package_name()
     module_name = get_module_name()
     function_name = func.__name__
-    args = ['gcp_runner.entry_point',
-         '--module-name=%s' % package_name + '.' + module_name,
+    args = ['--module-name=%s' % package_name + '.' + module_name,
          '--function-name=%s' % function_name]
     if kwargs is not None:
         for key,value in kwargs.items():
@@ -187,7 +186,8 @@ def get_run_args(func, **kwargs):
 def get_run_python_args(func, python_binary='python', **kwargs):
     args = [python_binary,
          '-u',
-         '-m']
+         '-m',
+         'gcp_runner.entry_point']
 
     args.extend(get_run_args(func, **kwargs))
     return args
