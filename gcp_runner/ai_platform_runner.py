@@ -110,7 +110,7 @@ def _get_common_args(
     return args
 
 # Cell
-def _get_ai_platform_run_args(func, job_dir, distribution_strategy_type, use_distribution_strategy_scope):
+def _get_ai_platform_run_args(job_dir, distribution_strategy_type, use_distribution_strategy_scope):
     args.append("--job-dir=%s" % job_dir)
     if distribution_strategy_type:
         args.append("--distribution-strategy-type=%s" % distribution_strategy_type)
@@ -286,11 +286,6 @@ def run_package(
     args.append("--")
     args.extend(get_run_args(func, **kwargs))
     args.extend(_get_ai_platform_run_args(job_dir, distribution_strategy_type, use_distribution_strategy_scope))
-
-    if distribution_strategy_type:
-        args.append("--distribution-strategy-type=%s" % distribution_strategy_type)
-        if use_distribution_strategy_scope:
-            args.append("--use-distribution-strategy-scope")
 
     print('running training job using package on Google Cloud Platform AI:')
     print(' '.join(args).replace(' --', '\n --').replace('\n', ' \\ \n'))
