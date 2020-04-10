@@ -111,11 +111,13 @@ def _get_common_args(
 
 # Cell
 def _get_ai_platform_run_args(job_dir, distribution_strategy_type, use_distribution_strategy_scope):
+    args = []
     args.append("--job-dir=%s" % job_dir)
     if distribution_strategy_type:
         args.append("--distribution-strategy-type=%s" % distribution_strategy_type)
         if use_distribution_strategy_scope:
             args.append("--use-distribution-strategy-scope")
+    return args
 
 
 # Cell
