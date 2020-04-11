@@ -145,7 +145,7 @@ in main after sleep 4
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gcp_runner.core</span> <span class="k">import</span> <span class="n">export_and_reload_all</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gcp_runner.core</span> <span class="kn">import</span> <span class="n">export_and_reload_all</span>
 <span class="n">export_and_reload_all</span><span class="p">(</span><span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
@@ -426,6 +426,32 @@ kubernetes-runner-train-docker-chief-0      in main after sleep 2
 kubernetes-runner-train-docker-chief-0      in main after sleep 3  
 kubernetes-runner-train-docker-chief-0      in main after sleep 4  
 </pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Worklog/Ideas">Worklog/Ideas<a class="anchor-link" href="#Worklog/Ideas"> </a></h2><ul>
+<li>Review and normalize API names<ul>
+<li>Provide 2 APIs, one for running everything as a package, one as a container and specify where to run it as an argument. So moving from local environment to remote environment is just a matter of a flag switch</li>
+</ul>
+</li>
+<li>Fix packages setup for Linux</li>
+<li>Add tests</li>
+<li>Either add a function to show inline tensorboard, or a callback to show training/validation graphs for remote runs</li>
+<li>Collecting usage stats basing on job name</li>
+<li>Add callbacks/functionality to bring model/environment variables back to notebook instance</li>
+<li>Explore magics instead of function calls for running code in the cloud</li>
+<li>Only reload updated modules</li>
+<li>Try to update globals, or at least show warnings when reloaded module has global variables</li>
+<li>Make logic for pulling Kubernetes logs better</li>
+<li>Jupyter lab/notebook extension to run any command when some button is pressed, and attach code for notebook conversions</li>
+<li>Add function to setup service account</li>
+<li>Add logic to download and configure service account from packages</li>
+<li>Support project_id replacement for docker container image uri</li>
+<li>Add function to install Video drivers on Kubernetes</li>
+</ul>
+
 </div>
 </div>
 </div>

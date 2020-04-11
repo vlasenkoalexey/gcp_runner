@@ -51,7 +51,7 @@ gcloud beta ai-platform jobs submit training ${JOB_NAME} \
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gcp_runner</span> <span class="k">import</span> <span class="n">core</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gcp_runner</span> <span class="kn">import</span> <span class="n">core</span>
 <span class="n">core</span><span class="o">.</span><span class="n">export_and_reload_all</span><span class="p">()</span>
 </pre></div>
 
@@ -127,6 +127,13 @@ Converted sample_code_test.ipynb.
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -228,7 +235,7 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="run_package" class="doc_header"><code>run_package</code><a href="__main__.py#L10" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>run_package</code>(<strong><code>func</code></strong>, <strong><code>job_dir</code></strong>, <strong><code>job_name</code></strong>=<em><code>None</code></em>, <strong><code>runtime_version</code></strong>=<em><code>'2.1'</code></em>, <strong><code>python_version</code></strong>=<em><code>'3.7'</code></em>, <strong><code>dry_run</code></strong>=<em><code>False</code></em>, <strong><code>region</code></strong>=<em><code>None</code></em>, <strong><code>scale_tier</code></strong>:<a href="/gcp_runner/ai_platform_constants#ScaleTier"><code>ScaleTier</code></a>=<em><code>ScaleTier.CUSTOM</code></em>, <strong><code>master_machine_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#MachineType"><code>MachineType</code></a>=<em><code>None</code></em>, <strong><code>master_image_uri</code></strong>=<em><code>None</code></em>, <strong><code>master_accelerator_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#AcceleratorType"><code>AcceleratorType</code></a>=<em><code>None</code></em>, <strong><code>master_accelerator_count</code></strong>=<em><code>None</code></em>, <strong><code>parameter_machine_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#MachineType"><code>MachineType</code></a>=<em><code>None</code></em>, <strong><code>parameter_machine_count</code></strong>=<em><code>None</code></em>, <strong><code>parameter_image_uri</code></strong>=<em><code>None</code></em>, <strong><code>parameter_accelerator_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#AcceleratorType"><code>AcceleratorType</code></a>=<em><code>None</code></em>, <strong><code>parameter_accelerator_count</code></strong>=<em><code>None</code></em>, <strong><code>worker_machine_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#MachineType"><code>MachineType</code></a>=<em><code>None</code></em>, <strong><code>worker_machine_count</code></strong>=<em><code>None</code></em>, <strong><code>worker_image_uri</code></strong>=<em><code>None</code></em>, <strong><code>worker_accelerator_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#AcceleratorType"><code>AcceleratorType</code></a>=<em><code>None</code></em>, <strong><code>worker_accelerator_count</code></strong>=<em><code>None</code></em>, <strong><code>use_chief_in_tf_config</code></strong>=<em><code>True</code></em>, <strong><code>distribution_strategy_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#DistributionStrategyType"><code>DistributionStrategyType</code></a>=<em><code>None</code></em>, <strong><code>use_distribution_strategy_scope</code></strong>:<code>bool</code>=<em><code>None</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="run_package" class="doc_header"><code>run_package</code><a href="__main__.py#L11" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>run_package</code>(<strong><code>func</code></strong>, <strong><code>job_dir</code></strong>, <strong><code>job_name</code></strong>=<em><code>None</code></em>, <strong><code>runtime_version</code></strong>=<em><code>'2.1'</code></em>, <strong><code>python_version</code></strong>=<em><code>'3.7'</code></em>, <strong><code>dry_run</code></strong>=<em><code>False</code></em>, <strong><code>region</code></strong>=<em><code>None</code></em>, <strong><code>scale_tier</code></strong>:<a href="/gcp_runner/ai_platform_constants#ScaleTier"><code>ScaleTier</code></a>=<em><code>ScaleTier.CUSTOM</code></em>, <strong><code>master_machine_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#MachineType"><code>MachineType</code></a>=<em><code>None</code></em>, <strong><code>master_image_uri</code></strong>=<em><code>None</code></em>, <strong><code>master_accelerator_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#AcceleratorType"><code>AcceleratorType</code></a>=<em><code>None</code></em>, <strong><code>master_accelerator_count</code></strong>=<em><code>None</code></em>, <strong><code>parameter_machine_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#MachineType"><code>MachineType</code></a>=<em><code>None</code></em>, <strong><code>parameter_machine_count</code></strong>=<em><code>None</code></em>, <strong><code>parameter_image_uri</code></strong>=<em><code>None</code></em>, <strong><code>parameter_accelerator_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#AcceleratorType"><code>AcceleratorType</code></a>=<em><code>None</code></em>, <strong><code>parameter_accelerator_count</code></strong>=<em><code>None</code></em>, <strong><code>worker_machine_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#MachineType"><code>MachineType</code></a>=<em><code>None</code></em>, <strong><code>worker_machine_count</code></strong>=<em><code>None</code></em>, <strong><code>worker_image_uri</code></strong>=<em><code>None</code></em>, <strong><code>worker_accelerator_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#AcceleratorType"><code>AcceleratorType</code></a>=<em><code>None</code></em>, <strong><code>worker_accelerator_count</code></strong>=<em><code>None</code></em>, <strong><code>use_chief_in_tf_config</code></strong>=<em><code>True</code></em>, <strong><code>distribution_strategy_type</code></strong>:<a href="/gcp_runner/ai_platform_constants#DistributionStrategyType"><code>DistributionStrategyType</code></a>=<em><code>None</code></em>, <strong><code>use_distribution_strategy_scope</code></strong>:<code>bool</code>=<em><code>None</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -248,7 +255,7 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gcp_runner</span> <span class="k">import</span> <span class="n">core</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gcp_runner</span> <span class="kn">import</span> <span class="n">core</span>
 <span class="n">core</span><span class="o">.</span><span class="n">export_and_reload_all</span><span class="p">()</span>
 </pre></div>
 
@@ -263,7 +270,6 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Converted 00_core.ipynb.
-Converted 01_ai_platform_constants.ipynb.
 Converted ai_platform_constants.ipynb.
 Converted ai_platform_runner.ipynb.
 Converted entry_point.ipynb.

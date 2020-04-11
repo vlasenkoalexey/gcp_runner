@@ -205,3 +205,23 @@ kubernetes-runner-train-docker-chief-0		in main after sleep 2
 kubernetes-runner-train-docker-chief-0		in main after sleep 3  
 kubernetes-runner-train-docker-chief-0		in main after sleep 4  
 </pre>
+
+## Worklog/Ideas
+
+- Review and normalize API names
+  - Provide 2 APIs, one for running everything as a package, one as a container and specify where to run it as an argument. So moving from local environment to remote environment is just a matter of a flag switch
+- Fix packages setup for Linux
+- Add tests
+- Either add a function to show inline tensorboard, or a callback to show training/validation graphs for remote runs
+- Collecting usage stats basing on job name
+- Add callbacks/functionality to bring model/environment variables back to notebook instance
+- Explore magics instead of function calls for running code in the cloud
+- Only reload updated modules
+- Try to update globals, or at least show warnings when reloaded module has global variables
+- Make logic for pulling Kubernetes logs better
+- Jupyter lab/notebook extension to run any command when some button is pressed, and attach code for notebook conversions
+- Add function to setup service account
+- Add logic to download and configure service account from packages
+- Support project_id replacement for docker container image uri
+- Add function to install Video drivers on Kubernetes
+

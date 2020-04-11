@@ -143,9 +143,7 @@ def run_docker_image(
     command = 'kubectl delete namespace kubernetes-runner-namespace'
     print(command)
     if not dry_run:
-        result = run_process(command.split(' '))
-        if result:
-            return result
+        run_process(command.split(' '))
 
     fd, path = tempfile.mkstemp()
     try:
