@@ -153,8 +153,7 @@ def run_process(args, **kwargs):
     proc = subprocess.Popen(
         args,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        bufsize=1)
+        stderr=subprocess.PIPE)
 
     q = Queue()
     Thread(target=_reader, args=[proc.stdout, q, 'stdout']).start()
