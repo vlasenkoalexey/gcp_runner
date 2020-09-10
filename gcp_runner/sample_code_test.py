@@ -8,9 +8,9 @@ import time
 def some_function_to_run_on_cloud():
     print('running sample_code_test.some_function_to_run_on_cloud')
     print('in main before sleep 1')
-    time.sleep(2)
+    time.sleep(1)
     print('in main after sleep 2')
-    time.sleep(5)
+    time.sleep(1)
     print('in main after sleep 3')
-    time.sleep(5)
-    print('in main after sleep 4')
+    time.sleep(1)
+    raise Exception('Error in main after sleep 4')

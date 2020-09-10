@@ -144,7 +144,7 @@ from queue import Queue
 def _reader(pipe, queue, pipe_name):
     try:
         with pipe:
-            for line in iter(pipe.readline, b''):
+            for line in iter(pipe.readline, ''):
                 queue.put((pipe_name, line))
     finally:
         queue.put(None)
@@ -153,18 +153,20 @@ def run_process(args, **kwargs):
     proc = subprocess.Popen(
         args,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE)
+        stderr=subprocess.PIPE,
+        bufsize=1,
+        encoding='utf-8')
 
     q = Queue()
     Thread(target=_reader, args=[proc.stdout, q, 'stdout']).start()
     Thread(target=_reader, args=[proc.stderr, q, 'stderr']).start()
-    #for _ in range(2):
     for source, line in iter(q.get, None):
-        line = line.decode('utf-8').rstrip('\r\n')
-        if source == 'stderr':
-            print("\x1b[31m{}\x1b[0m".format(line))
-        else:
-            print(line)
+        line = line.rstrip('\n').rstrip('\r')
+        if line != '':
+            if source == 'stderr':
+                print("\x1b[31m{}\x1b[0m".format(line))
+            else:
+                print(line)
 
     return proc.poll()
 

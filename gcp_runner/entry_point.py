@@ -13,7 +13,7 @@ import logging
 import re
 from .ai_platform_constants import DistributionStrategyType
 
-def get_distribution_strategy_instance(distribution_strategy_type:DistributionStrategyType):
+def get_distribution_strategy_instance(distribution_strategy_type):
     import tensorflow as tf
 
     logging.info('initializing distribution strategy: %s', distribution_strategy_type)
