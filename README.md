@@ -1,6 +1,35 @@
 # Google Cloud Platform notebook runner for [nbdev](https://github.com/fastai/nbdev/tree/master/nbdev)
 > Allows running any Jupyter notebook function on Google Cloud Platform.
 
+Idea of the project is to provide ability to package and run some code from Jupyter notebook
+directly to Google Cloud and run it on GCE, GKE or Vertex Training. 
+At the same time the code that invokes the experience of calling into your notebook code
+looks very similar on either environment.
+
+Assume that you have a function that you can call as: `some_function_to_run_on_cloud(arg1, arg2)` in your 
+Jupyter Notebook.
+
+With GCP runner you'll be able to run it on GKE as:
+
+```python
+import gcp_runner.ai_platform_constants
+import gcp_runner.kubernetes_runner
+
+gcp_runner.kubernetes_runner.run_docker_image(
+     some_function_to_run_on_cloud,
+     arg1,
+     arg2,
+     ... some optional args to configure your GKE
+)
+```
+
+GCP runner is relying on https://nbdev.fast.ai/ to organize projects
+and provides API to package your code as a docker container and to pass through an entry point 
+function. This way you can move from running code locally to running code on Cloud without any changes.
+
+See https://github.com/vlasenkoalexey/criteo_nbdev for e2e demo on how to use GCP runner 
+to solve a real ML problem.
+
 
 ## Install
 
